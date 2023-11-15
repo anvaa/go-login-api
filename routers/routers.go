@@ -8,6 +8,7 @@ import (
 )
 
 func SetupRouter(wd string) *gin.Engine {
+	// toggle between debug and release mode
 	gin.SetMode(gin.DebugMode)
 	// gin.SetMode(gin.ReleaseMode)
 

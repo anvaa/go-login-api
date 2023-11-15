@@ -13,7 +13,7 @@ var WD string
 func init() {
 	WD = getWD()
 	
-	if !filefunc.IsExists(WD + "/env") {
+	if !filefunc.IsExists(WD + "/.env") {
 		log.Println("No .env file found. Creating one...")
 		initializers.WriteEnv(WD)
 	}

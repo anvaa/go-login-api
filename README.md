@@ -2,7 +2,7 @@
 <br>
 go 1.21.3
 <br>
-A login api written in Go, GIN and GORM using Sqlite3 as data source.
+A login api written in Go, GIN and GORM using Sqlite3 as data source. The middelware uses JWT and cookies for authentication.
 <br>
 Usage:<br>
 - clone the reposetory<br>
