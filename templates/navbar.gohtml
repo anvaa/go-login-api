@@ -1,0 +1,25 @@
+{{ template "header.gohtml" . }}
+<div>
+    <table class="topmenu-table">
+        <tr>
+            <th class="topmenu-th">
+                <input type="button" value="Home" class="menubutton" id="userhome" />
+            </th>
+            {{ if .user.IsAdmin }}
+            <th class="topmenu-th">
+                <input type="button" value="Manage users" class="menubutton" id="mngusers" />
+            </th>
+            {{ end }}
+            <th style="width: 80%; text-align: center;" class="topmenu-th">
+                <label class="admin-text">
+                    Admin: {{ .user.Email }}
+                </label>
+            </th>
+            
+            <th class="topmenu-th">
+                <input type="button" value="Logout" class="menubutton" id="logoutbtn" />
+            </th>
+        </tr>
+    </table>
+</div>
+<script src="/js/navbar.js"></script>

@@ -1,0 +1,43 @@
+{{ template "header.gohtml" . }}
+<div>
+  <form id="login-form">
+    <table>
+      <tr>
+        <td colspan="2" class="header-text">Login</td>
+      </tr>
+      <tr>
+        <td class="label-text">Email&nbsp</td>
+        <td>
+          <input type="email" id="email" name="email" required />
+        </td>
+      </tr>
+      <tr>
+        <td class="label-text">Password&nbsp</td>
+        <td>
+          <input type="password" id="password" name="password" required />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="submit"></label>
+        </td>
+        <td>
+          <button type="submit" class="subbutton">Login</button>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="errmessage">
+          <p id="message"></p>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<p class="info-text">
+  If you don´t have an account you can sign up here:
+  <a href="/signup" class="info-text">Signup</a>
+</p>
+
+<script src="/js/{{ .js }}"></script>
+</body>
+</html>

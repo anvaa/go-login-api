@@ -1,0 +1,188 @@
+
+body {
+    background-color: white;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+form {
+    border: 1px solid grey;
+    padding: 10px;
+    background-color: white;
+    width: 50%;
+}
+
+input[type=text], input[type=password], input[type=email], input[type=number] {
+    width: 100%;
+    padding: 5px 5px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+/* u_nav.gohtml menu items */
+.menubutton {
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+.menubutton:hover {
+    background-color: white;
+    border: 1px solid white;
+    color: black;
+}
+
+/* <p> errormsg text under submit buttons */
+.errmessage {
+    color: red;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.label-text {
+    color: black;
+    font-size: 15px;
+    text-align: right;
+}
+
+.admin-text {
+    color: lightgrey;
+    font-size: 15px;
+}
+
+.header-text {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: left;
+    color: black;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.info-text {
+    color: black;
+    font-size: 15px;
+    text-align: left;
+}
+
+.topmenu-text {
+    color: black;
+    font-size: 15px;
+    text-align: right;
+    cursor: pointer;
+}
+
+.topmenu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: black;
+    padding: 0px;
+} 
+
+.topmenu-th {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: left;
+    background-color: black;
+    color: white;
+}
+
+
+
+.editbutton, .addnotebtn, .addfilebtn, .delnotebtn, .delfilebtn {
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.imgbutton, {
+    background-color: brown;
+    border: 1px solid lightgray;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.imgpreview {
+    width: 50px;
+    height: 50px;
+    margin: px;
+    text-align: center;
+}
+
+.subbutton {
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+
+.list-header {
+    
+    color: black;
+    padding: 5px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    width: fit-content;
+}
+
+/* deleteall and cleanup files menues */
+.editnote-text {
+    width: max-content;
+    text-align: left;
+    vertical-align: bottom;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.gnote-view {
+    width: fit-content;
+    background-color: lightgrey;
+    font-family: monospace;
+    text-align: left;
+    text-wrap: pretty;
+    
+    border-left:  2px solid black;
+    border-bottom:  1px solid black;
+    border-top: 1px solid lightgrey;
+    border-radius: 15px;
+    
+    padding: 10px;
+}
+
+.table-users {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: lightgrey;
+    padding: 0px;
+    border: 1px solid black;
+}

@@ -1,0 +1,13 @@
+go 1.21.3
+
+use (
+	.
+	./controllers
+	./filefunc
+	./global
+	./initializers
+	./middleware
+	./models
+	./routers
+	./templates
+)
