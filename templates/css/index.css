@@ -1,11 +1,12 @@
 body {
     margin: 20px;
     padding: 20;
-    font-family: sans-serif, Arial, Helvetica;
+    font-family: sans-serif, Arial, Helvetica, monospace;
     background-color: white;
+    align-content: center;
 }
 
-#_img {
+#_logo-effect {
     text-align: center;
     margin-top: 10%;
     margin-bottom: 5%;
@@ -51,7 +52,7 @@ body {
     padding: 10px;
 }
 
-.subbutton {
+.loginbtn {
     background-color: black;
     border: 1px solid black;
     color: white;

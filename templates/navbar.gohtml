@@ -3,23 +3,24 @@
     <table class="topmenu-table">
         <tr>
             <th class="topmenu-th">
-                <input type="button" value="Home" class="menubutton" id="userhome" />
+                <input type="button" value="Home" class="menubutton" onclick="userhomeClick()" />
             </th>
-            {{ if .user.IsAdmin }}
+            {{ if eq .user.Role "admin" }}
             <th class="topmenu-th">
-                <input type="button" value="Manage users" class="menubutton" id="mngusers" />
+                <input type="button" value="Manage users" class="menubutton" onclick="mngusersClick()" />
             </th>
             {{ end }}
             <th style="width: 80%; text-align: center;" class="topmenu-th">
                 <label class="admin-text">
-                    Admin: {{ .user.Email }}
+                    {{ .user.Role }}: {{ .user.Email }}
                 </label>
             </th>
             
             <th class="topmenu-th">
-                <input type="button" value="Logout" class="menubutton" id="logoutbtn" />
+                <input type="button" value="Logout" class="menubutton" onclick="logoutClick()" />
             </th>
         </tr>
     </table>
+    <p id="_message" class="errmessage"></p>
 </div>
 <script src="/js/navbar.js"></script>

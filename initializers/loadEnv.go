@@ -35,13 +35,13 @@ func GetSecret() string {
 	if err != nil {
 		log.Fatal("Error generating JWT secret")
 	}
-	// uncomment next line to use a static secret when testing
 	// secret = "TEST_kdølfjgp948wteøsrdkghpwe7thgui"
 	return secret
 }
 
 func GenerateSecret() (string, error) {
-	// Generating a random byte array of 32 bytes
+	// Since we want a 64-character secret and each character is 8 bits,
+	// we need to generate 32 bytes and then encode it using base64
 	const byteLength = 32
 
 	secretBytes := make([]byte, byteLength)

@@ -1,0 +1,59 @@
+{{ template "header.gohtml" . }}
+{{ template "navbar.gohtml" . }}
+<div class="user-home">
+    <p class="header-text">Edit {{ .edituid.Role }}: {{ .edituid.Email }}</p>
+    <input type="hidden" id="_uid" value="{{ .edituid.Id }}" />
+    <input type="hidden" id="_email" value="{{ .edituid.Email }}" />
+    <form id="updateuser" action="/user/role" method="post" class="form-edituser">
+        <label for="role">Role</label>
+        <select name="roles" id="role" >
+            {{ if eq .edituid.Role "admin" }}
+            <option value="admin" selected>Admin</option>
+            <option value="user">User</option>
+            {{ else }}
+            <option value="admin">Admin</option>
+            <option value="user" selected>User</option>
+            {{ end }}
+        </select>
+        <input type="hidden" name="uid" value="{{ .edituid.Id }}" />
+        <input type="submit" value="Update role" class="subbutton" />
+    <p id="message" class="errmessage"></p>
+    </form>
+    <br>
+    <form id="changepassword" action="/user/psw" method="post"  class="form-edituser">
+        <table>
+            <tr>
+                <td class="label-text">Password&nbsp</td>
+                <td>
+                    <input type="password" id="_password1" required>
+                </td>
+            </tr>
+            <tr>
+                <td class="label-text">Confirm Password&nbsp</td>
+                <td>
+                    <input type="password" id="_password2" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="submit"></label>
+                </td>
+                <td>
+                    <input type="button" value="Set new password" class="subbutton" onclick="setPswClick()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <div class="form-edituser">
+        <button value="{{ .edituid.Id }}" 
+                class="delbutton"
+                onclick="delClick()">
+                Delete user
+        </button>
+    </div>
+
+</div>
+<script src="/js/{{ .js }}"></script>
+</body>
+</html>

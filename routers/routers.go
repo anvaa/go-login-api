@@ -8,7 +8,6 @@ import (
 )
 
 func SetupRouter(wd string) *gin.Engine {
-	// toggle between debug and release mode
 	gin.SetMode(gin.DebugMode)
 	// gin.SetMode(gin.ReleaseMode)
 
@@ -20,24 +19,29 @@ func SetupRouter(wd string) *gin.Engine {
 	r.Static("/share", wd + "/share")
 	r.LoadHTMLGlob(wd + "/templates/*.gohtml")
 
-	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	go r.GET("/", controllers.Index)
 	
-	go r.POST("/signup", controllers.SignUp)
+	go r.POST("/signup", controllers.ViewSignup)
 	go r.GET("/signup", controllers.ViewSignup)
 
 	go r.POST("/login", controllers.ViewLogin)
 	go r.GET("/login", controllers.ViewLogin)
 
-	userRoutes := r.Group("/u")
+	go r.GET("/logout", controllers.Logout)
+
+	userRoutes := r.Group("/user")
 	{
 		userRoutes.Use(middleware.RequireAuth)
-		go userRoutes.POST("/logout", controllers.Logout)
-		go userRoutes.GET("/u", controllers.GetUsers)
+		userRoutes.Use(middleware.IsAdmin)
+		
+		go userRoutes.GET("/", controllers.GetUsers)
 		go userRoutes.GET("/:id", controllers.GetUser)
 		go userRoutes.PUT("/:id", controllers.UpdateUser)
-		go userRoutes.DELETE("/:id", controllers.DeleteUser)
+		go userRoutes.POST("/delete/:id", controllers.DeleteUser)
+		go userRoutes.POST("/auth/:id", controllers.UpdateAuth)
+		go userRoutes.POST("/role", controllers.UpdateRole)
+		go userRoutes.POST("/psw", controllers.SetNewPassword)
 
 	}
 
@@ -45,7 +49,8 @@ func SetupRouter(wd string) *gin.Engine {
 	{
 		viewRoutes.Use(middleware.RequireAuth)
 		go viewRoutes.GET("/home", controllers.ViewUserHome)
-		go viewRoutes.GET("/users", controllers.ViewManageUsers)
+		go viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
+		go viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)
 	}
 
 	return r

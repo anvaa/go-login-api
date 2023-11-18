@@ -13,9 +13,22 @@ var WD string
 func init() {
 	WD = getWD()
 	
-	if !filefunc.IsExists(WD + "/.env") {
+	envFile := WD + "/.env"
+	if !filefunc.IsExists(envFile) {
 		log.Println("No .env file found. Creating one...")
 		initializers.WriteEnv(WD)
+	}
+
+	dataFolder := WD + "/data"
+	if !filefunc.IsExists(dataFolder) {
+		log.Println("No data folder found. Creating one...")
+		filefunc.CreateFolder(dataFolder)
+	}
+
+	shareFolder := WD + "/share"
+	if !filefunc.IsExists(shareFolder) {
+		log.Println("No data folder found. Creating one...")
+		filefunc.CreateFolder(shareFolder)
 	}
 	
 	initializers.LoadEnv(WD)

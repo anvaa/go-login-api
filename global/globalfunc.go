@@ -160,3 +160,9 @@ func GetUsers() []models.Users {
 	initializers.DB.Find(&users)
 	return users
 }
+
+func GetUser(uid string) models.Users {
+	var user models.Users
+	initializers.DB.Where("id = ?", uid).First(&user)
+	return user
+}

@@ -1,27 +1,27 @@
 
-document.getElementById("mngusers").addEventListener("click", function (event) {
+function mngusersClick() {
     window.location.href = "/v/users";
-});
-document.getElementById("userhome").addEventListener("click", function (event) {
+}
+
+function userhomeClick() {
     window.location.href = "/v/home";
-});
+}
 
-document.getElementById("logoutbtn").addEventListener("click", async (event) => {
+async function logoutClick() {
+    var messageElement = document.getElementById("_message");
     
-    const confirmed = confirm("Are you sure you want to logout?");
-    if (!confirmed) {
-    return;
+    try {
+        const response = await fetch("/logout", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) {
+            throw new Error("Server error");
+        }
+
+        window.location.href = "/";
+    } catch (error) {
+        messageElement.innerHTML = "Logout failed: " + error.message;
     }
-
-    const response = await fetch("/u/logout", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-    },
-    });
-
-    if (response.status === 401) {
-    window.location.href = "/";
-    }
-
-});
+}

@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <title>{{ .title }}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/{{ .css }}">
     </head>
 <body>
@@ -11,11 +10,13 @@
     <table class="table-main">
         <tbody>
             <tr class="login_tr">
-                <th class="subbutton" id="loginbtn">Login</th>
+                <th>
+                    <a href="/login" class="loginbtn">Login</a>
+                </th>
             </tr>
             <tr>
                 <td>
-                    <div id="_img">
+                    <div id="_logo-effect">
                         <img src="/share/{{ .logo }}">
                     </div>
                 </td>
@@ -27,7 +28,7 @@
 <div id="_divbottom">
     <table>
         <tr>
-            <td id="_logo-td">L A H B &#174</td>
+            <td>Your TM &#174</td>
         </tr>
     </table>
 </div>

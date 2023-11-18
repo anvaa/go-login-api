@@ -63,10 +63,10 @@ func SignUp(c *gin.Context) {
 	}
 
 	// first user gets to be admin
-	isadmin := false
+	role := "user"
 	isauth := false
 	if global.CountUsers() == 0 {
-		isadmin = true
+		role = "admin"
 		isauth = true
 	}
 
@@ -74,7 +74,7 @@ func SignUp(c *gin.Context) {
 	user := models.Users{
 		Email:    email,
 		Password: string(hashedPassword),
-		IsAdmin: isadmin,
+		Role: role,
 		IsAuth: isauth,
 	}
 
@@ -95,6 +95,7 @@ func Login(c *gin.Context) {
 	var body struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
+		IsAuth bool `json:"isauth"`
 	}
 
 	if c.BindJSON(&body) != nil {
@@ -138,7 +139,13 @@ func Login(c *gin.Context) {
 
 	if !global.CheckPasswordHash(password, user.Password) {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Email or Password is invalid"})
+			"message": "Email or password is invalid"})
+		return
+	}
+
+	if !user.IsAuth {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "User is not authenticated"})
 		return
 	}
 
@@ -172,9 +179,7 @@ func Login(c *gin.Context) {
 func Logout(c *gin.Context) {
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("goAuth", "", 0, "", "", false, true)
-	c.JSON(http.StatusUnauthorized, gin.H{
-		"message": "unauthorized",
-	})
+	http.Redirect(c.Writer, c.Request, "/", http.StatusMovedPermanently)
 }
 
 func GetUsers(c *gin.Context) {
@@ -238,9 +243,27 @@ func UpdateUser(c *gin.Context) {
 }
 
 func DeleteUser(c *gin.Context) {
-	id := c.Param("id")
+	var body struct {
+		Id    string `json:"id"`
+	}
+
+	if c.BindJSON(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "failed to read body"})
+		return
+	}
+
+	uid := body.Id
+
+	if uid == "1" {
+		// http.Redirect(c.Writer, c.Request, "/v/users", http.StatusMovedPermanently)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Not allowed to delete superadmin!"})
+		return
+	}
+
 	var user models.Users
-	if err := initializers.DB.Where("id = ?", id).First(&user).Error; err != nil {
+	if err := initializers.DB.Where("id = ?", uid).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to get user"})
 		return
@@ -258,4 +281,108 @@ func DeleteUser(c *gin.Context) {
 func Validate(c *gin.Context) {
 	user, _ := c.Get("user")
 	c.JSON(http.StatusOK, user)
+}
+
+func UpdateAuth(c *gin.Context) {
+	uid := c.Param("id")
+	var user models.Users
+	if err := initializers.DB.Where("id = ?", uid).First(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to get user"})
+		return
+	}
+
+	if uid == "1" {
+		http.Redirect(c.Writer, c.Request, "/v/users", http.StatusMovedPermanently)
+		return
+	}
+
+	switch user.IsAuth {
+	case true:
+		user.IsAuth = false
+	case false:
+		user.IsAuth = true
+	}
+
+	if err := initializers.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to update auth"})
+		return
+	}
+
+	http.Redirect(c.Writer, c.Request, "/v/users", http.StatusMovedPermanently)
+	
+}
+
+func UpdateRole(c *gin.Context) {
+	uid := c.Request.FormValue("uid")
+	role := c.Request.FormValue("roles")
+	
+	var user models.Users
+	if err := initializers.DB.Where("id = ?", uid).First(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to get user"})
+		return
+	}
+
+	if uid == "1" {
+		http.Redirect(c.Writer, c.Request, "/v/users", http.StatusMovedPermanently)
+		return
+	}
+
+	user.Role = role
+
+	if err := initializers.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to update role"})
+		return
+	}
+
+	http.Redirect(c.Writer, c.Request, "/v/users", http.StatusMovedPermanently)
+}
+
+func SetNewPassword(c *gin.Context) {
+	var body struct {
+		Id    string `json:"id"`
+		Password string `json:"password"`
+	}
+
+	if c.BindJSON(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "failed to read body"})
+		return
+	}
+
+	uid := body.Id
+	psw := body.Password
+
+	var user models.Users
+	if err := initializers.DB.Where("id = ?", uid).First(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to get user"})
+		return
+	}
+
+	if global.IsValidPassword(psw) != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Password is not valid"})
+		return
+	}
+
+	hashedPassword, err := global.HashPassword(psw)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Failed to hash password"})
+		return
+	}
+
+	user.Password = string(hashedPassword)
+	if err := initializers.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to update role"})
+		return
+	}
+
+	http.Redirect(c.Writer, c.Request, "/v/users", http.StatusMovedPermanently)
+
 }

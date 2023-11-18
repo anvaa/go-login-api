@@ -1,8 +1,6 @@
 package filefunc
 
 import (
-	
-	// "io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,7 +12,6 @@ func IsExists(path string) bool {
 	}
 	return true
 }
-
 
 // Create folder
 func CreateFolder(path string) {
@@ -72,4 +69,3 @@ func GetFileListByExt(dir string, ext string) []string {
 	return files
 }
 
-// create image file from byte stream
