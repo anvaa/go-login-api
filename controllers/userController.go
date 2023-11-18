@@ -179,7 +179,7 @@ func Login(c *gin.Context) {
 func Logout(c *gin.Context) {
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("goAuth", "", 0, "", "", false, true)
-	http.Redirect(c.Writer, c.Request, "/", http.StatusMovedPermanently)
+	c.JSON(http.StatusOK, gin.H{})
 }
 
 func GetUsers(c *gin.Context) {

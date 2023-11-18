@@ -12,7 +12,7 @@ async function logoutClick() {
     
     try {
         const response = await fetch("/logout", {
-            method: "GET",
+            method: "POST",
             headers: { "Content-Type": "application/json" },
         });
 

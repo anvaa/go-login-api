@@ -7,13 +7,17 @@ import (
 )
 
 func IsAdmin(c *gin.Context) {
-	// Get the user from the context
+	
 	user := c.MustGet("user").(models.Users)
 	
 	if user.Role != "admin" {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		onErr(c)
 		return
 	}
-	
 	c.Next()
+}
+
+func onErr(c *gin.Context) {
+	c.Redirect(http.StatusPermanentRedirect, "/v/home") 
+	c.Abort()
 }

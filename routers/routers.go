@@ -4,15 +4,16 @@ import (
 	"controllers"
 	"middleware"
 
+	"os"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter(wd string) *gin.Engine {
-	gin.SetMode(gin.DebugMode)
-	// gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(os.Getenv("GIN_MODE"))
 
 	r := gin.Default()
-	r.SetTrustedProxies([]string{""})
+	r.SetTrustedProxies(nil)
+	// r.TrustedPlatform = "linux"
 
 	r.Static("/css", wd + "/templates/css")
 	r.Static("/js", wd + "/templates/js")
@@ -28,13 +29,13 @@ func SetupRouter(wd string) *gin.Engine {
 	go r.POST("/login", controllers.ViewLogin)
 	go r.GET("/login", controllers.ViewLogin)
 
-	go r.GET("/logout", controllers.Logout)
+	go r.POST("/logout", controllers.Logout)
 
 	userRoutes := r.Group("/user")
-	{
+	{	
 		userRoutes.Use(middleware.RequireAuth)
 		userRoutes.Use(middleware.IsAdmin)
-		
+
 		go userRoutes.GET("/", controllers.GetUsers)
 		go userRoutes.GET("/:id", controllers.GetUser)
 		go userRoutes.PUT("/:id", controllers.UpdateUser)
@@ -48,6 +49,7 @@ func SetupRouter(wd string) *gin.Engine {
 	viewRoutes := r.Group("/v")
 	{
 		viewRoutes.Use(middleware.RequireAuth)
+
 		go viewRoutes.GET("/home", controllers.ViewUserHome)
 		go viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
 		go viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)

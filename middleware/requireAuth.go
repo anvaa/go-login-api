@@ -3,7 +3,7 @@ package middleware
 import (
 	"initializers"
 	"models"
-	"net/http"
+	// "net/http"
 	"github.com/gin-gonic/gin"
 	"os"	
 	"github.com/golang-jwt/jwt/v5"
@@ -13,7 +13,8 @@ func RequireAuth(c *gin.Context) {
 	// Get the JWT string from the header
 	tokenString, err := c.Cookie("goAuth")
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		// c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		onErr(c)
 		return
 	}
 
@@ -22,13 +23,15 @@ func RequireAuth(c *gin.Context) {
 	)
 
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		// c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		onErr(c)
 		return
 	}
 	
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		// c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		onErr(c)
 		return
 	}
 
@@ -37,7 +40,8 @@ func RequireAuth(c *gin.Context) {
 	initializers.DB.Where("id = ?", claims["sub"]).First(&user)
 
 	if user.Id == 0 {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		// c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+		onErr(c)
 		return
 	}
 	

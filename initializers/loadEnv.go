@@ -21,6 +21,7 @@ func WriteEnv(wd string) {
 			"JWT_SECRET": GetSecret(),
 			"WORKING_FOLDER": wd,
 			"DB_PATH": wd + "/data/data.db", // ":memory:"
+			"GIN_MODE": "debug",
 		},
 		wd + "/.env",
 	)

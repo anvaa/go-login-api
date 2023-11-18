@@ -1,7 +1,24 @@
 {{ template "header.gohtml" . }}
 {{ template "navbar.gohtml" . }}
 <div class="user-home">
-    <p class="header-text">Edit {{ .edituid.Role }}: {{ .edituid.Email }}</p>
+    <table>
+        <tr>
+            <td class="header-text">Edit {{ .edituid.Role }}: {{ .edituid.Email }}</td>
+            <td>  </td>
+            <td>
+                <button value="{{ .edituid.Id }}" 
+                        class="delbutton"
+                        onclick="delClick()">
+                        Delete user
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <!-- <p class="header-text">
+        Edit {{ .edituid.Role }}: {{ .edituid.Email }}
+    </p> -->
+   
     <input type="hidden" id="_uid" value="{{ .edituid.Id }}" />
     <input type="hidden" id="_email" value="{{ .edituid.Email }}" />
     <form id="updateuser" action="/user/role" method="post" class="form-edituser">
@@ -45,13 +62,13 @@
         </table>
     </form>
     <br>
-    <div class="form-edituser">
+    <!-- <div class="form-edituser">
         <button value="{{ .edituid.Id }}" 
                 class="delbutton"
                 onclick="delClick()">
                 Delete user
         </button>
-    </div>
+    </div> -->
 
 </div>
 <script src="/js/{{ .js }}"></script>

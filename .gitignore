@@ -17,8 +17,11 @@
 *.exe
 *.dll
 *.txt
+.air.toml
+/tmp
+tmp/*
 
 # IDE generated files #
 .env
-data/data.db
+data/users.db
 runme.sh
