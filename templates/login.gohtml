@@ -3,39 +3,33 @@
   <form id="login-form">
     <table>
       <tr>
-        <td colspan="2" class="header-text">Login</td>
+        <td class="header-text">Login</td>
       </tr>
       <tr>
-        <td class="label-text">Email&nbsp</td>
-        <td>
-          <input type="email" id="email" name="email" required />
+        <td style="text-align: right;">
+          <label for="_email">Email</label>
+          <input type="email" id="_email" required />
         </td>
       </tr>
       <tr>
-        <td class="label-text">Password&nbsp</td>
-        <td>
-          <input type="password" id="password" name="password" required />
+        <td style="text-align: right;">
+          <label for="_password">password</label>
+          <input type="password" id="_password" required />
         </td>
       </tr>
       <tr>
-        <td>
-          <label for="submit"></label>
-        </td>
-        <td>
-          <button type="submit" class="subbutton">Login</button>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="errmessage">
-          <p id="message"></p>
+        <td style="text-align: left;">
+          <label for="_btn" style="color: white;">Password</label>
+          <input type="button" class="subbutton" onclick="loginClick()" value="Login" />
         </td>
       </tr>
     </table>
   </form>
 </div>
+<div id="_message" class="errmessage"></div>
 <p class="info-text">
-  If you don´t have an account you can sign up here:
-  <a href="/signup" class="info-text">Signup</a>
+  If you don´t have an account you can sign up
+  <a href="/signup" class="info-text">here</a>
 </p>
 
 <script src="/js/{{ .js }}"></script>

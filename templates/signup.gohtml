@@ -1,45 +1,42 @@
 {{ template "header.gohtml" . }}
 <div>
     <form id="signup-form">
-        <table>
-            <tr>
-                <td colspan="2" class="header-text">Signup</td>
-            </tr>
-            <tr>
-                <td class="label-text">Email&nbsp</td>
-                <td>
-                    <input type="email" id="email" name="email" required>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-text">Password&nbsp</td>
-                <td>
-                    <input type="password" id="password" name="password" required>
-                </td>
-            </tr>
-            <tr>
-                <td class="label-text">Confirm Password&nbsp</td>
-                <td>
-                    <input type="password" id="password2" name="password2" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="submit"></label>
-                </td>
-                <td>
-                    <input type="button" value="Signup" class="subbutton" onclick="signUp()">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="errmessage">
-                    <p id="_message"></p>
-                </td>
-            </tr>
-        </table>
+      <table>
+        <tr>
+          <td class="header-text">Signup</td>
+        </tr>
+        <tr>
+          <td style="text-align: right;">
+            <label for="_email">Email</label>
+            <input type="email" id="_email" required />
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: right;">
+            <label for="_password1">Password</label>
+            <input type="password" id="_password1" required />
+          </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">
+              <label for="_password2">Confirm password</label>
+              <input type="password" id="_password2" required />
+            </td>
+          </tr>
+        <tr>
+          <td style="text-align: left;">
+            <label for="_btn" style="color: white;">Confirm password</label>
+            <input type="button" class="subbutton" onclick="signupClick()" value="Signup" />
+          </td>
+        </tr>
+      </table>
     </form>
-</div>
-<p class="info-text">If you have an account you can sign in here: <a href="/login">Login</a></p>
+  </div>
+  <div id="_message" class="errmessage"></div>
+  <p class="info-text">
+    If you have an account you can login
+    <a href="/login" class="info-text">here</a>
+  </p>
 
 <script src="/js/{{ .js }}"></script>
 </body>

@@ -3,43 +3,19 @@ package global
 import (
 	"initializers"
 	"models"
+
 	"strconv"
-
 	"errors"
-	"strings"
-
+	"regexp"
+	
 	"golang.org/x/crypto/bcrypt"
 )
 
 func IsValidEmail(email string) error {
 	var err error
 
-	if email == "" {
-		err = errors.New("email must be longer than 0 characters")
-		return err
-	}
-
-	if len(email) > 100 {
-		err = errors.New("email must be less than 100 characters")
-		return err
-	}
-
-	if len(email) < 9 {
-		err = errors.New("email must be valid")
-		return err
-	}
-
-	if !strings.Contains(email, "@") {
-		err = errors.New("email must be valid")
-		return err
-	}
-
-	if !strings.Contains(email, ".") {
-		err = errors.New("email must be valid")
-		return err
-	}
-
-	if strings.Contains(email, " ") {
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	if !emailRegex.MatchString(email) {
 		err = errors.New("email must be valid")
 		return err
 	}
@@ -51,7 +27,7 @@ func IsValidPassword(password string) error {
 	var err error
 
 	if password == "" {
-		err = errors.New("Password must be longer than 0 characters")
+		err = errors.New("password must be longer than 0 characters")
 		return err
 	}
 

@@ -38,9 +38,9 @@ func SetupRouter(wd string) *gin.Engine {
 
 		go userRoutes.GET("/", controllers.GetUsers)
 		go userRoutes.GET("/:id", controllers.GetUser)
-		go userRoutes.PUT("/:id", controllers.UpdateUser)
+		// go userRoutes.PUT("/:id", controllers.UpdateUser)
 		go userRoutes.POST("/delete/:id", controllers.DeleteUser)
-		go userRoutes.POST("/auth/:id", controllers.UpdateAuth)
+		go userRoutes.POST("/auth", controllers.UpdateAuth)
 		go userRoutes.POST("/role", controllers.UpdateRole)
 		go userRoutes.POST("/psw", controllers.SetNewPassword)
 

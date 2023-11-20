@@ -55,11 +55,11 @@ func ViewUserHome(c *gin.Context) {
 }
 
 func ViewManageUsers(c *gin.Context) {
-	c.HTML(http.StatusOK, "auth_users.gohtml", gin.H{
+	c.HTML(http.StatusOK, "users.gohtml", gin.H{
 		"title": "Manage Users",
 		"user": c.Keys["user"],
 		"css": "user.css",
-		"js": "auth_users.js",
+		"js": "users.gojs",
 		"users": global.GetUsers(),
 	})
 }
@@ -71,6 +71,6 @@ func ViewEditUser(c *gin.Context) {
 		"user": c.Keys["user"],
 		"edituid": global.GetUser(uid),
 		"css": "user.css",
-		"js": "edit_users.js",
+		"js": "edit_user.gojs",
 	})
 }

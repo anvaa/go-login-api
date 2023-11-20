@@ -1,21 +1,16 @@
-async function signUp() {
+async function signupClick() {
   
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const password2 = document.getElementById("password2").value;
+  const email = document.getElementById("_email").value;
+  const password = document.getElementById("_password1").value;
+  const password2 = document.getElementById("_password2").value;
   const messageElement = document.getElementById("_message");
-  
-  if (!validateEmail(email)) {
-    messageElement.innerHTML = "Please enter a valid email address";
-    return;
-  }
 
   if (!validatePasswords(password, password2)) {
     return; // Message is set inside the validatePasswords function
   }
 
   try {
-    const userData = { email, password };
+    const userData = { email, password, password2 };
     
     const response = await fetch("/signup", {
       method: "POST",
@@ -32,25 +27,28 @@ async function signUp() {
     messageElement.innerHTML = "Signup failed: " + error.message;
   }
 };
+  
+function validatePasswords(psw1, psw2) {
 
-  
-function validateEmail(email) {
-  return /\S+@\S+\.\S+/.test(email);
-}
-  
-function validatePasswords(password, password2) {
-  if (password === "" || password2 === "") {
-    document.getElementById("message").innerHTML = "Passwords cannot be empty";
+  const errmsg = document.getElementById("_message");
+
+  if (psw1 === "" || psw2 === "") {
+    errmsg.innerHTML = "Passwords cannot be empty";
     return false;
   }
 
-  if (password !== password2) {
-    document.getElementById("message").innerHTML = "Passwords do not match";
+  if (psw1 !== psw2) {
+    errmsg.innerHTML = "Passwords do not match";
     return false;
   }
 
-  if (password.length < 8) {
-    document.getElementById("message").innerHTML = "Passwords must be at least 8 characters long";
+  if (psw1.length < 8) {
+    errmsg.innerHTML = "Passwords must be at least 8 characters long";
+    return false;
+  }
+
+  if (psw1.length > 50) {
+    errmsg.innerHTML = "Passwords must be less than 50 characters long";
     return false;
   }
 

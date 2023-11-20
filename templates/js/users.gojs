@@ -1,0 +1,27 @@
+
+async function setAuthClick(uid) {
+
+    var messageElement = document.getElementById("_message");
+    var isAuth = document.getElementById("_auth"+uid).checked;
+
+    var authData = {
+        id: uid,
+        isauth: isAuth,
+    };
+
+    try {
+        const response = await fetch("/user/auth", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(authData),
+        });
+
+        if (!response.ok) {
+            messageElement.innerHTML = error.message;
+        } 
+
+        window.location.href = "/v/users";
+        } catch (error) {
+        messageElement.innerHTML = "Change auth failed: " + error.message;
+    }
+}

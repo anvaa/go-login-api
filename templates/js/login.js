@@ -1,14 +1,8 @@
-document.getElementById("login-form").addEventListener("submit", async function (event) {
-  event.preventDefault();
+async function loginClick() {
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const messageElement = document.getElementById("message");
-
-  if (!validateEmail(email)) {
-    messageElement.innerHTML = "Please enter a valid email address";
-    return;
-  }
+  const email = document.getElementById("_email").value;
+  const password = document.getElementById("_password").value;
+  const messageElement = document.getElementById("_message");
 
   if (!validatePassword(password)) {
     messageElement.innerHTML = "Password must be at least 8 characters long";
@@ -31,12 +25,8 @@ document.getElementById("login-form").addEventListener("submit", async function 
   } catch (error) {
     messageElement.innerHTML = "Login failed: " + error.message;
   }
-});
+};
 
-function validateEmail(email) {
-  return /\S+@\S+\.\S+/.test(email);
-}
-
-function validatePassword(password) {
-  return password.length >= 8;
+function validatePassword(psw) {
+  return psw.length >= 8;
 }

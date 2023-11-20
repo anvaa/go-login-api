@@ -1,75 +1,63 @@
-{{ template "header.gohtml" . }}
 {{ template "navbar.gohtml" . }}
 <div class="user-home">
     <table>
         <tr>
             <td class="header-text">Edit {{ .edituid.Role }}: {{ .edituid.Email }}</td>
-            <td>  </td>
-            <td>
+            <td>&nbsp&nbsp
+                {{ if eq .edituid.Id 1 }}
+                {{ else }}
                 <button value="{{ .edituid.Id }}" 
                         class="delbutton"
                         onclick="delClick()">
                         Delete user
                 </button>
+                {{ end }}
             </td>
         </tr>
     </table>
-
-    <!-- <p class="header-text">
-        Edit {{ .edituid.Role }}: {{ .edituid.Email }}
-    </p> -->
-   
+    <br>
     <input type="hidden" id="_uid" value="{{ .edituid.Id }}" />
     <input type="hidden" id="_email" value="{{ .edituid.Email }}" />
-    <form id="updateuser" action="/user/role" method="post" class="form-edituser">
-        <label for="role">Role</label>
-        <select name="roles" id="role" >
+    {{ if eq .edituid.Id 1 }}
+    {{ else }}
+    <form id="updateuser" class="form-edituser">
+        <label for="_role">Role</label>
+        <select id="_role" >
             {{ if eq .edituid.Role "admin" }}
-            <option value="admin" selected>Admin</option>
-            <option value="user">User</option>
+                <option value="admin" selected>admin</option>
+                <option value="user">user</option>
             {{ else }}
-            <option value="admin">Admin</option>
-            <option value="user" selected>User</option>
+                <option value="admin">admin</option>
+                <option value="user" selected>user</option>
             {{ end }}
         </select>
-        <input type="hidden" name="uid" value="{{ .edituid.Id }}" />
-        <input type="submit" value="Update role" class="subbutton" />
-    <p id="message" class="errmessage"></p>
+        <input type="button" value="Update role" class="subbutton" onclick="setRole()" />
     </form>
     <br>
+    {{ end }}
     <form id="changepassword" action="/user/psw" method="post"  class="form-edituser">
         <table>
             <tr>
-                <td class="label-text">Password&nbsp</td>
-                <td>
-                    <input type="password" id="_password1" required>
+                <td style="text-align: right;">
+                  <label for="_password1">Password</label>
+                  <input type="password" id="_password1" required />
                 </td>
-            </tr>
+              </tr>
+              <tr>
+                  <td style="text-align: right;">
+                    <label for="_password2">Confirm password</label>
+                    <input type="password" id="_password2" required />
+                  </td>
+                </tr>
+              <tr>
             <tr>
-                <td class="label-text">Confirm Password&nbsp</td>
                 <td>
-                    <input type="password" id="_password2" required>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="submit"></label>
-                </td>
-                <td>
+                    <label for="submit" style="color: lightgrey;">Confirm password</label>
                     <input type="button" value="Set new password" class="subbutton" onclick="setPswClick()" />
                 </td>
             </tr>
         </table>
     </form>
-    <br>
-    <!-- <div class="form-edituser">
-        <button value="{{ .edituid.Id }}" 
-                class="delbutton"
-                onclick="delClick()">
-                Delete user
-        </button>
-    </div> -->
-
 </div>
 <script src="/js/{{ .js }}"></script>
 </body>

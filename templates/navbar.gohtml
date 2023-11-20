@@ -9,6 +9,7 @@
             <th class="topmenu-th">
                 <input type="button" value="Manage users" class="menubutton" onclick="mngusersClick()" />
             </th>
+            
             {{ end }}
             <th style="width: 80%; text-align: center;" class="topmenu-th">
                 <label class="admin-text">
@@ -21,6 +22,6 @@
             </th>
         </tr>
     </table>
-    <p id="_message" class="errmessage"></p>
+    <div id="_message" class="errmessage" oninput="errChange()"></div>
 </div>
-<script src="/js/navbar.js"></script>
+<script src="/js/navbar.gojs"></script>

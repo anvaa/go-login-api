@@ -41,7 +41,7 @@ select {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 .menubutton:hover {
     background-color: white;
@@ -49,19 +49,19 @@ select {
     color: black;
 }
 
-/* <p> errormsg text under submit buttons */
 .errmessage {
     color: red;
     font-weight: bold;
-    font-size: 16px;
-}
-
-.label-text {
-    color: black;
     font-size: 15px;
-    text-align: right;
+    font-family: monospace;
+
+    width: fit-content;
+    padding: 3px 5px;
+    border-radius: 15px;
+    border: 2px solid white;
 }
 
+/* user/admin text navbar center */
 .admin-text {
     color: lightgrey;
     font-size: 15px;
@@ -74,6 +74,7 @@ select {
     color: black;
     text-decoration: underline;
     text-underline-offset: 5px;
+    width: fit-content;
 }
 
 .info-text {
@@ -125,7 +126,7 @@ select {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 15px;
+    font-size: 10px;
     cursor: pointer;
     border-radius: 15px;
 } .delbutton:hover {
@@ -162,6 +163,7 @@ select {
 }
 
 .tr-list-users {
+    
     border: 1px solid grey;
     padding: 5px;
     font-family: monospace;
