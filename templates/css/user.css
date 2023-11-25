@@ -33,7 +33,7 @@ select {
 /* u_nav.gohtml menu items */
 .menubutton {
     background-color: black;
-    border: 1px solid black;
+    border: 1px solid white;
     color: white;
     padding: 3px 5px;
     text-align: center;
@@ -69,11 +69,18 @@ select {
 
 .header-text {
     font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+    color: black;
+    padding: 3px;
+    width: fit-content;
+}
+
+.header-text-count {
+    font-weight: bold;
     font-size: 20px;
     text-align: left;
     color: black;
-    text-decoration: underline;
-    text-underline-offset: 5px;
     width: fit-content;
 }
 
@@ -95,7 +102,15 @@ select {
     border-collapse: collapse;
     background-color: black;
     padding: 0px;
+    border-radius: 10px;
 } 
+
+/* .topmenu-tr {
+    padding: 0px;
+    border: 1px solid black;
+    border-radius: 10px;
+} */
+
 
 .topmenu-th {
     border: 1px solid black;
@@ -103,6 +118,7 @@ select {
     text-align: left;
     background-color: black;
     color: white;
+    
 }
 
 .subbutton {
@@ -135,6 +151,18 @@ select {
     color: white;
 }
 
+.authbutton {
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+    padding: 3px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 15px;
+} 
 
 .list-header {
     
@@ -152,21 +180,17 @@ select {
     width: 100%;
     border-collapse: collapse;
     background-color: whitesmoke;
-    padding: 5px;
-
     background-color: lightgray;
     color: black;
 
-    
     text-align: left;
     font-size: 15px;
 }
 
-.tr-list-users {
-    
-    border: 1px solid grey;
-    padding: 5px;
+.td-list-users {
+    padding: 2px;
     font-family: monospace;
+    border: 1px solid black;
 }
 
 .form-edituser {

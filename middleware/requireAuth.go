@@ -3,9 +3,12 @@ package middleware
 import (
 	"initializers"
 	"models"
-	// "net/http"
-	"github.com/gin-gonic/gin"
-	"os"	
+	"controllers"
+	
+	"os"
+	"net/http"
+	
+	"github.com/gin-gonic/gin"	
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -48,4 +51,10 @@ func RequireAuth(c *gin.Context) {
 	// Attach the user to the context
 	c.Set("user", user)
 	c.Next()
+}
+
+func onErr(c *gin.Context) {
+	controllers.Logout(c)
+	c.Redirect(http.StatusPermanentRedirect, "/") 
+	c.Abort()
 }

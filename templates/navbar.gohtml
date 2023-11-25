@@ -1,6 +1,5 @@
 {{ template "header.gohtml" . }}
-<div>
-    <table class="topmenu-table">
+    <table >
         <tr>
             <th class="topmenu-th">
                 <input type="button" value="Home" class="menubutton" onclick="userhomeClick()" />
@@ -9,19 +8,16 @@
             <th class="topmenu-th">
                 <input type="button" value="Manage users" class="menubutton" onclick="mngusersClick()" />
             </th>
-            
             {{ end }}
             <th style="width: 80%; text-align: center;" class="topmenu-th">
                 <label class="admin-text">
                     {{ .user.Role }}: {{ .user.Email }}
                 </label>
             </th>
-            
             <th class="topmenu-th">
                 <input type="button" value="Logout" class="menubutton" onclick="logoutClick()" />
             </th>
         </tr>
     </table>
-    <div id="_message" class="errmessage" oninput="errChange()"></div>
-</div>
+    <div id="_message" class="errmessage"></div>
 <script src="/js/navbar.gojs"></script>

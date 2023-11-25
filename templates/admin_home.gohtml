@@ -1,0 +1,66 @@
+{{ template "navbar.gohtml" . }}
+    <div>
+        <p class="header-text">Welcome admin {{ .user.Email }}</p>
+    </div>
+    
+    <table class="table-users">
+        <thead>
+            <td class="header-text" colspan="3">New Users ({{ .countnew }})</td>
+        <tr>
+            <th class="td-list-users">ID</th>
+            <th class="td-list-users">Email</th>
+            <th class="td-list-users">Role</th>
+            <th class="td-list-users">Authorized</th>
+            <th class="td-list-users"></th>
+            <th class="td-list-users">Created</th>
+            <th class="td-list-users">Updates</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+            {{ range .newhusers }}
+            <tr class="tr-list-users">
+                <form class="authform">
+                    <td class="td-list-users">
+                        {{ .Id }}
+                    </td>
+                    <td class="td-list-users">
+                        <a href="/v/user/{{ .Id }}">{{ .Email }}</a>
+                    </td>
+                    <td class="td-list-users">{{ .Role }}</td>
+                    <td class="td-list-users">
+                        <input type="checkbox" id="_auth{{ .Id }}" {{ if .IsAuth }}checked{{ end }}>
+                    </td>
+                    <td class="td-list-users">
+                        {{ if eq .Id 1 }}
+                        {{ else }}
+                            {{ if .IsAuth }}
+                            <input type="button" class="authbutton" value="Unauthorize" onclick="setAuthClick('{{ .Id }}')" />
+                            {{ else }}
+                            <input type="button" class="authbutton" value="Authorize" onclick="setAuthClick('{{ .Id }}')" />
+                            {{ end }}
+                        {{ end }}
+                    </td>
+                    <td class="td-list-users">
+                        <script>
+                            var date = new Date({{ .CreatedAt }});
+                            document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        </script>
+                    </td>
+                    <td class="td-list-users">
+                        <script>
+                            var date = new Date({{ .UpdatedAt }});
+                            document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        </script>
+                    </td>
+                </form>
+            </tr>
+            {{ end }}
+        </tbody>
+    </table>
+    
+
+<script src="/js/{{ .js }}"></script>
+</body>
+</html>
+`

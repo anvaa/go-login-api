@@ -45,12 +45,31 @@ func ViewLogin(c *gin.Context) {
 	})
 }
 
-func ViewUserHome(c *gin.Context) {
+func ViewHome(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.gohtml", gin.H{
 		"title": "Home",
 		"user": c.Keys["user"],
 		"css": "user.css",
-		"js": "home.js",
+	})
+}
+
+func ViewUserHome(c *gin.Context) {
+	c.HTML(http.StatusOK, "user_home.gohtml", gin.H{
+		"title": "Home",
+		"user": c.Keys["user"],
+		"css": "user.css",
+		"js": "home.gojs",
+	})
+}
+
+func ViewAdminHome(c *gin.Context) {
+	c.HTML(http.StatusOK, "admin_home.gohtml", gin.H{
+		"title": "Admin Home",
+		"user": c.Keys["user"],
+		"css": "user.css",
+		"js": "users.gojs",
+		"newhusers": global.GetNewUsers(),
+		"countnew": global.GetCountNewUsers(),
 	})
 }
 
@@ -60,7 +79,12 @@ func ViewManageUsers(c *gin.Context) {
 		"user": c.Keys["user"],
 		"css": "user.css",
 		"js": "users.gojs",
-		"users": global.GetUsers(),
+		"authusers": global.GetAuthUsers(),
+		"countauth": global.GetCountAuthUsers(),
+		"unauthusers": global.GetUnauthUsers(),
+		"countunauth": global.GetCountUnauthUsers(),
+		"delusers": global.GetDeletedUsers(),
+		"countdel": global.GetCountDeletedUsers(),
 	})
 }
 

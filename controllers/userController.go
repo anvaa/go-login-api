@@ -170,7 +170,8 @@ func Login(c *gin.Context) {
 	}
 
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("goAuth", tokenString, 3600*24*30, "/", "", false, true)
+	// c.SetCookie("goAuth", tokenString, 3600*24*30, "/", "", false, true)
+	c.SetCookie("goAuth", tokenString, 3600*24, "/", "", false, true)
 
 	usrFileFolder := fmt.Sprintf(os.Getenv("SHARE_FOLDER") + "/%d/files", user.Id)
 	
@@ -179,7 +180,7 @@ func Login(c *gin.Context) {
 	}
 	
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
+		"message": "/v/home",
 	})
 
 }
@@ -187,7 +188,6 @@ func Login(c *gin.Context) {
 func Logout(c *gin.Context) {
 	c.SetSameSite(http.SameSiteLaxMode)
 	c.SetCookie("goAuth", "", 0, "", "", false, true)
-	c.JSON(http.StatusOK, gin.H{})
 }
 
 func GetUsers(c *gin.Context) {

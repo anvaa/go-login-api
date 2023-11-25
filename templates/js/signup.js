@@ -1,3 +1,25 @@
+
+document.getElementById("_password1").addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    signupClick();
+  }
+}
+);
+
+document.getElementById("_password2").addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    signupClick();
+  }
+}
+);
+
+document.getElementById("_email").addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    signupClick();
+  }
+}
+);
+
 async function signupClick() {
   
   const email = document.getElementById("_email").value;

@@ -131,14 +131,56 @@ func CountUsers() int {
 	return int(count)
 }
 
-func GetUsers() []models.Users {
+func GetAuthUsers() []models.Users {
 	var users []models.Users
-	initializers.DB.Find(&users)
+	initializers.DB.Where("is_auth = ?", true).Find(&users)
 	return users
+}
+
+func GetCountAuthUsers() int {
+	var count int64
+	initializers.DB.Model(&models.Users{}).Where("is_auth = ?", true).Count(&count)
+	return int(count)
+}
+
+func GetUnauthUsers() []models.Users {
+	var users []models.Users
+	initializers.DB.Where("is_auth = ?", false).Find(&users)
+	return users
+}
+
+func GetCountUnauthUsers() int {
+	var count int64
+	initializers.DB.Model(&models.Users{}).Where("is_auth = ?", false).Count(&count)
+	return int(count)
+}
+
+func GetNewUsers() []models.Users {
+	var users []models.Users
+	initializers.DB.Where("created_at = updated_at and isauth=0").Find(&users)
+	return users
+}
+
+func GetCountNewUsers() int {
+	var count int64
+	initializers.DB.Model(&models.Users{}).Where("created_at = updated_at and isauth=0").Count(&count)
+	return int(count)
 }
 
 func GetUser(uid string) models.Users {
 	var user models.Users
 	initializers.DB.Where("id = ?", uid).First(&user)
 	return user
+}
+
+func GetDeletedUsers() []models.Users {
+	var users []models.Users
+	initializers.DB.Unscoped().Where("deleted_at IS NOT NULL").Find(&users)
+	return users
+}
+
+func GetCountDeletedUsers() int {
+	var count int64
+	initializers.DB.Model(&models.Users{}).Unscoped().Where("deleted_at IS NOT NULL").Count(&count)
+	return int(count)
 }

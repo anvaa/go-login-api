@@ -8,7 +8,6 @@ Usage:<br>
 - cd into go-login-api<br>
 - Execute: go run .<br>
 - data/data.db and .env will be created on first run<br>
-- First user to sign up will be administrator<br>
 - First user to sign up will be superadmin<br><br>
 
 Before relese:<br>

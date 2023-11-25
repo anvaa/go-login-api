@@ -25,8 +25,3 @@ async function logoutClick() {
         messageElement.innerHTML = "Logout failed: " + error.message;
     }
 }
-
-function errChange() {
-    var messageElement = document.getElementById("_message");
-    messageElement.style = "border: 2px solid red;";
-}

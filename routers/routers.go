@@ -18,6 +18,8 @@ func SetupRouter(wd string) *gin.Engine {
 	r.Static("/css", wd + "/templates/css")
 	r.Static("/js", wd + "/templates/js")
 	r.Static("/share", wd + "/share")
+	r.Static("/tmpl", wd + "/templates")
+
 	r.LoadHTMLGlob(wd + "/templates/*.gohtml")
 
 
@@ -35,6 +37,7 @@ func SetupRouter(wd string) *gin.Engine {
 	{	
 		userRoutes.Use(middleware.RequireAuth)
 		userRoutes.Use(middleware.IsAdmin)
+		userRoutes.Use(middleware.IsAuth)
 
 		go userRoutes.GET("/", controllers.GetUsers)
 		go userRoutes.GET("/:id", controllers.GetUser)
@@ -49,8 +52,14 @@ func SetupRouter(wd string) *gin.Engine {
 	viewRoutes := r.Group("/v")
 	{
 		viewRoutes.Use(middleware.RequireAuth)
+		viewRoutes.Use(middleware.IsAuth)
 
-		go viewRoutes.GET("/home", controllers.ViewUserHome)
+		// not admin
+		go viewRoutes.GET("/home", controllers.ViewHome)
+		go viewRoutes.GET("/userhome", controllers.ViewUserHome)
+
+		// is admin
+		go viewRoutes.GET("/adminhome", middleware.IsAdmin, controllers.ViewAdminHome)
 		go viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
 		go viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)
 	}

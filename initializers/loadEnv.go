@@ -1,9 +1,11 @@
 package initializers
 
 import (
-	"log"
 	"crypto/rand"
 	"encoding/base64"
+	"log"
+	"os"
+
 	"github.com/joho/godotenv"
 )
 
@@ -18,10 +20,11 @@ func WriteEnv(wd string) {
 	err := godotenv.Write(
 		map[string]string{
 			"PORT": "8090",
-			"JWT_SECRET": GetSecret(),
+			"GIN_MODE": "debug",
 			"WORKING_FOLDER": wd,
 			"DB_PATH": wd + "/data/data.db", // ":memory:"
-			"GIN_MODE": "debug",
+			"JWT_SECRET": GetSecret(),
+			
 		},
 		wd + "/.env",
 	)
@@ -36,7 +39,9 @@ func GetSecret() string {
 	if err != nil {
 		log.Fatal("Error generating JWT secret")
 	}
-	// secret = "TEST_kdølfjgp948wteøsrdkghpwe7thgui"
+	if os.Getenv("GIN_MODE") == "debug" {
+		secret = "TEST_kdølfjgp948wteøsrdkghpwe7thgui"
+	}
 	return secret
 }
 
