@@ -2,6 +2,8 @@
 async function setAuthClick(uid) {
 
     var messageElement = document.getElementById("_message");
+    messageElement.style.border = "1px solid red";
+
     var isAuth = document.getElementById("_auth"+uid).checked;
 
     var authData = {

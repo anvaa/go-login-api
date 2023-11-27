@@ -13,7 +13,6 @@ func SetupRouter(wd string) *gin.Engine {
 
 	r := gin.Default()
 	r.SetTrustedProxies(nil)
-	// r.TrustedPlatform = "linux"
 
 	r.Static("/css", wd + "/templates/css")
 	r.Static("/js", wd + "/templates/js")
@@ -46,7 +45,7 @@ func SetupRouter(wd string) *gin.Engine {
 		go userRoutes.POST("/auth", controllers.UpdateAuth)
 		go userRoutes.POST("/role", controllers.UpdateRole)
 		go userRoutes.POST("/psw", controllers.SetNewPassword)
-
+		go userRoutes.POST("/act", controllers.SetAct)
 	}
 
 	viewRoutes := r.Group("/v")

@@ -34,6 +34,28 @@
         <input type="button" value="Update role" class="subbutton" onclick="setRole()" />
     </form>
     <br>
+    <form id="updateaccesstime" class="form-edituser">
+        <table>
+            <tr>
+                <td style="text-align: left;">
+                    <label for="_act">Access time: {{ .act }}</label>
+                </td>
+            <tr>
+                <td style="text-align: right;">
+                    <label for="_min">Minutes</label>
+                    <input type="text" id="_min" value="0" />
+                    <div style="text-align: center;">hour=60, day=1440, week=10080, month=43200</div>
+                </td>
+            </tr>
+            <tr>
+                <td >
+                    <label for="_btn" style="color: lightgrey;">Minutes</label>
+                    <input type="button" value="Update access time" class="subbutton" onclick="setAccessTime()" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br>
     {{ end }}
     <form id="changepassword" action="/user/psw" method="post"  class="form-edituser">
         <table>

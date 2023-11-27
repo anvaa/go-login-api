@@ -26,6 +26,7 @@ async function signupClick() {
   const password = document.getElementById("_password1").value;
   const password2 = document.getElementById("_password2").value;
   const messageElement = document.getElementById("_message");
+  messageElement.style.border = "1px solid red";
 
   if (!validatePasswords(password, password2)) {
     return; // Message is set inside the validatePasswords function

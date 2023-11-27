@@ -2,12 +2,13 @@ package filefunc
 
 import (
 	"os"
+	"log"
 	"path/filepath"
 	"strings"
 )
 
 func IsExists(path string) bool {
-	if _, err := os.Stat(os.Getenv("WORKING_FOLDER") + path); os.IsNotExist(err) {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return false
 	}
 	return true
@@ -16,7 +17,8 @@ func IsExists(path string) bool {
 // Create folder
 func CreateFolder(path string) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0777)
+		log.Println("created: " + path)
+		os.Mkdir(path, 0755)
 	}
 }
 

@@ -9,6 +9,7 @@ function userhomeClick() {
 
 async function logoutClick() {
     var messageElement = document.getElementById("_message");
+    messageElement.style.border = "2px solid red";
     
     try {
         const response = await fetch("/logout", {

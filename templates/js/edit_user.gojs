@@ -2,6 +2,8 @@
 async function delClick() {
         
     var messageElement = document.getElementById("_message");
+    messageElement.style.border = "1px solid red";
+
     var uid = document.getElementById("_uid").value;
     var email = document.getElementById("_email").value;
     
@@ -41,6 +43,8 @@ async function delClick() {
 async function setPswClick() {
         
     var messageElement = document.getElementById("_message");
+    messageElement.style.border = "1px solid red";
+    
     var uid = document.getElementById("_uid").value;
     var psw1 = document.getElementById("_password1").value;
     var psw2 = document.getElementById("_password2").value;
@@ -74,6 +78,7 @@ async function setPswClick() {
 
 function validatePasswords(password, password2) {
     var messageElement = document.getElementById("_message");
+    messageElement.style.border = "1px solid red";
 
     if (password === "" || password2 === "") {
         messageElement.innerHTML = "Passwords cannot be empty";
@@ -96,6 +101,8 @@ function validatePasswords(password, password2) {
 async function setRole() {
         
     var messageElement = document.getElementById("_message");
+    messageElement.style.border = "1px solid red";
+
     var id = document.getElementById("_uid").value;
     var role = document.getElementById("_role").value;
     
@@ -118,5 +125,36 @@ async function setRole() {
         window.location.href = "/v/user/" + id;
         } catch (error) {
         messageElement.innerHTML = "Change role failed: " + error.message;
+    }
+}
+
+async function setAccessTime() {
+        
+    var messageElement = document.getElementById("_message");
+    messageElement.style.border = "1px solid red";
+    
+    var uid = document.getElementById("_uid").value;
+    var min = document.getElementById("_min").value;
+
+    var userData = {
+        id: uid,
+        accesstime: min,
+    };
+
+    try {
+        const response = await fetch("/user/act", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        });
+    
+        if (!response.ok) {
+            messageElement.innerHTML = error.message;
+        }
+    
+        window.location.href = "/v/user/" + uid;
+        } catch (error) {
+        messageElement.innerHTML = "Change access time failed: " + error.message;
+
     }
 }

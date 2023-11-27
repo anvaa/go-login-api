@@ -10,6 +10,7 @@ import (
 )
 
 func LoadEnv(wd string) {
+
 	err := godotenv.Load(wd + "/.env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -22,9 +23,9 @@ func WriteEnv(wd string) {
 			"PORT": "8090",
 			"GIN_MODE": "debug",
 			"WORKING_FOLDER": wd,
-			"DB_PATH": wd + "/data/data.db", // ":memory:"
-			"JWT_SECRET": GetSecret(),
-			
+			"DB_PATH": wd + "/data/users.db", // ":memory:"
+			"JWT_SECRET": "os.Environ() placeholder",
+			"ACCESS_TIME": "3600*24*7", // 1 week
 		},
 		wd + "/.env",
 	)

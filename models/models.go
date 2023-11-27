@@ -11,6 +11,7 @@ type Users struct {
 	Password string `gorm:"not null, size:50"`
 	Role string `gorm:"default:user, size:10"`
 	IsAuth bool `gorm:"default:false"`
+	AccessTime int `gorm:"default:3600"`
 }
 
 

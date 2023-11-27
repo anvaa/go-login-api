@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"global"
+	"models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -59,6 +60,7 @@ func ViewUserHome(c *gin.Context) {
 		"user": c.Keys["user"],
 		"css": "user.css",
 		"js": "home.gojs",
+		"act": global.ActToString(c.Keys["user"].(models.Users).AccessTime),
 	})
 }
 
@@ -68,6 +70,7 @@ func ViewAdminHome(c *gin.Context) {
 		"user": c.Keys["user"],
 		"css": "user.css",
 		"js": "users.gojs",
+		"act": global.ActToString(c.Keys["user"].(models.Users).AccessTime),	
 		"newhusers": global.GetNewUsers(),
 		"countnew": global.GetCountNewUsers(),
 	})
@@ -96,5 +99,7 @@ func ViewEditUser(c *gin.Context) {
 		"edituid": global.GetUser(uid),
 		"css": "user.css",
 		"js": "edit_user.gojs",
+		"act": global.ActToString(global.GetUser(uid).AccessTime),
 	})
+
 }

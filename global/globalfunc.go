@@ -1,13 +1,14 @@
 package global
 
 import (
+	"fmt"
 	"initializers"
 	"models"
 
-	"strconv"
 	"errors"
 	"regexp"
-	
+	"strconv"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -157,13 +158,13 @@ func GetCountUnauthUsers() int {
 
 func GetNewUsers() []models.Users {
 	var users []models.Users
-	initializers.DB.Where("created_at = updated_at and isauth=0").Find(&users)
+	initializers.DB.Where("created_at = updated_at and is_auth = false").Find(&users)
 	return users
 }
 
 func GetCountNewUsers() int {
 	var count int64
-	initializers.DB.Model(&models.Users{}).Where("created_at = updated_at and isauth=0").Count(&count)
+	initializers.DB.Model(&models.Users{}).Where("created_at = updated_at and is_auth = false").Count(&count)
 	return int(count)
 }
 
@@ -183,4 +184,63 @@ func GetCountDeletedUsers() int {
 	var count int64
 	initializers.DB.Model(&models.Users{}).Unscoped().Where("deleted_at IS NOT NULL").Count(&count)
 	return int(count)
+}
+
+func StringToInt(str string) (int, error) {
+	i, err := strconv.Atoi(str)
+	if err != nil {
+		return 0, err
+	}
+	return i, nil
+}
+
+func IntToString(i int) string {
+	return strconv.Itoa(i)
+}
+
+func ActToString(t int) string {
+	
+	if t == 0 {
+		t = 3600 // 1 hours
+	}
+
+	// sec := t % 60
+	min := t / 60
+	hour := min / 60
+	min = min % 60
+	day := hour / 24
+	hour = hour % 24
+
+	var timeString string
+	switch {
+	case day > 0:
+		timeString = fmt.Sprintf("%d days", day)
+		if hour > 0 {
+			timeString = fmt.Sprintf("%d days, %d hours", day, hour)
+		}
+		if min > 0 {
+			timeString = fmt.Sprintf("%d days, %d hours, %d minutes", day, hour, min)
+		}
+	case hour > 0:
+		timeString = fmt.Sprintf("%d hours", hour)
+		if min > 0 {
+			timeString = fmt.Sprintf("%d hours, %d minutes", hour, min)
+		}
+	case min > 0:
+		timeString = fmt.Sprintf("%d minutes", min)
+	default:
+		timeString = fmt.Sprintf("%d minutes", min)
+	}
+
+	return timeString
+}
+
+func CalculateAccessTime(t string) int {
+
+	min, err := StringToInt(t)
+	if err != nil {
+		min = 1
+	}
+
+	return 60 * min
 }

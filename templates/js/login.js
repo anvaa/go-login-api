@@ -19,6 +19,7 @@ async function loginClick() {
   const email = document.getElementById("_email").value;
   const password = document.getElementById("_password").value;
   const messageElement = document.getElementById("_message");
+  messageElement.style.border = "1px solid red";
 
   if (!validateEmail(email)) {
     messageElement.innerHTML = "Not a valid email";

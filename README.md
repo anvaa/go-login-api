@@ -7,11 +7,10 @@ Usage:<br>
 - clone the reposetory<br>
 - cd into go-login-api<br>
 - Execute: go run .<br>
-- data/data.db and .env will be created on first run<br>
+- data/users.db and .env will be created on first run<br>
 - First user to sign up will be superadmin<br><br>
 
 Before relese:<br>
 - Remeber to set GIN_MODE="release" in .env<br>
-- REM out test secret in loadEnv.go<br><br>
 
 - Hope you enjoy it. Good luck<br>

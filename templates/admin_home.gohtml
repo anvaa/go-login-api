@@ -1,11 +1,16 @@
 {{ template "navbar.gohtml" . }}
     <div>
-        <p class="header-text">Welcome admin {{ .user.Email }}</p>
+        <table style="width: 100%;">
+            <tr>
+                <td class="header-text">Welcome admin {{ .user.Email }}</td>
+                <td class="act-text" style="text-align: right">Access time: {{ .act }}</td>
+            </tr>
+        </table>
     </div>
     
     <table class="table-users">
         <thead>
-            <td class="header-text" colspan="3">New Users ({{ .countnew }})</td>
+            <td class="header-text-count" colspan="3">New Users ({{ .countnew }})</td>
         <tr>
             <th class="td-list-users">ID</th>
             <th class="td-list-users">Email</th>

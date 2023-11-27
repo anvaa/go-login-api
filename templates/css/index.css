@@ -54,7 +54,7 @@ body {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .login_tr {

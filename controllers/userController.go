@@ -159,7 +159,7 @@ func Login(c *gin.Context) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.Id,
-		"exp": time.Now().Add(time.Hour * 24).Unix(),
+		"exp": time.Now().Add(time.Second * time.Duration(user.AccessTime)).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
@@ -169,15 +169,12 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	// accesstime := global.SetDefaultAccessTime()
 	c.SetSameSite(http.SameSiteLaxMode)
-	// c.SetCookie("goAuth", tokenString, 3600*24*30, "/", "", false, true)
-	c.SetCookie("goAuth", tokenString, 3600*24, "/", "", false, true)
+	c.SetCookie("goAuth", tokenString, user.AccessTime, "/", "", false, true)
 
-	usrFileFolder := fmt.Sprintf(os.Getenv("SHARE_FOLDER") + "/%d/files", user.Id)
-	
-	if !filefunc.IsExists(usrFileFolder) {
-		filefunc.CreateFolder(usrFileFolder)
-	}
+	usrFolder := fmt.Sprintf(os.Getenv("WORKING_FOLDER") + "/share/%d/files", user.Id)
+	filefunc.CreateFolder(usrFolder)
 	
 	c.JSON(http.StatusOK, gin.H{
 		"message": "/v/home",
@@ -404,6 +401,39 @@ func SetNewPassword(c *gin.Context) {
 	}
 
 	user.Password = string(hashedPassword)
+	if err := initializers.DB.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to update role"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success"})
+
+}
+
+func SetAct(c *gin.Context) {
+	var body struct {
+		Id    string `json:"id"`
+		AccessTime string `json:"accesstime"`
+	}
+
+	if c.BindJSON(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "failed to read body"})
+		return
+	}
+
+	var user models.Users
+	if err := initializers.DB.Where("id = ?", body.Id).First(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to get user"})
+		return
+	}
+
+	accessTime := global.CalculateAccessTime(body.AccessTime)
+
+	user.AccessTime = accessTime
 	if err := initializers.DB.Save(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to update role"})

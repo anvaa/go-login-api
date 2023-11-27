@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
-	"initializers"
-	"routers"
 	"filefunc"
+	"initializers"
+	"log"
 	"os"
+	"routers"
 )
 
 var WD string
@@ -36,15 +36,6 @@ func init() {
 	initializers.SyncDB()
 }
 
-func main() {
-
-	log.Println("Port: " + os.Getenv("PORT"))
-
-	r := routers.SetupRouter(WD)
-
-	r.Run()
-}
-
 func getWD() string {
 	wd, err := os.Getwd()
 	if err != nil {
@@ -53,3 +44,18 @@ func getWD() string {
 	log.Println("Root: " + wd)
 	return wd
 }
+
+func main() {
+	// generate new 64-bit secret key for JWT on startup
+	err := os.Setenv("JWT_SECRET", initializers.GetSecret())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// log.Println(os.Environ())
+
+	r := routers.SetupRouter(WD)
+
+	r.Run()
+}
+
