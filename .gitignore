@@ -25,3 +25,6 @@ tmp/*
 .env
 data/users.db
 runme.sh
+.static
+*.crt
+*.key
