@@ -41,7 +41,7 @@ select {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 .menubutton:hover {
     background-color: white;
@@ -133,7 +133,7 @@ select {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .delbutton {
@@ -146,7 +146,7 @@ select {
     display: inline-block;
     font-size: 10px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 6px;
 } .delbutton:hover {
     background-color: red;
     border: 1px solid orangered;
@@ -163,11 +163,10 @@ select {
     display: inline-block;
     font-size: 10px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 6px;
 } 
 
 .list-header {
-    
     color: black;
     padding: 5px;
     text-align: left;
@@ -207,4 +206,18 @@ select {
     color: black;
 
     text-align: left;
+}
+
+.configbox {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 3px;
+    width: fit-content;
+}
+
+.configbox-inherit {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 3px;
+    width: inherit;
 }

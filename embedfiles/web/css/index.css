@@ -24,7 +24,7 @@ input[type=text], input[type=password], input[type=email], input[type=number] {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .flex-container {
@@ -48,7 +48,7 @@ input[type=text], input[type=password], input[type=email], input[type=number] {
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 6px;
 }
 
 .header-text {
@@ -70,4 +70,11 @@ input[type=text], input[type=password], input[type=email], input[type=number] {
     padding: 3px 5px;
     border-radius: 10px;
     border: 2px solid white;
+}
+
+.configbox {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 3px;
+    width: fit-content;
 }

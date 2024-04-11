@@ -20,43 +20,48 @@
     <input type="hidden" id="_email" value="{{ .edituid.Email }}" />
     {{ if eq .edituid.Id 1 }}
     {{ else }}
-    <form id="updateuser" class="form-edituser">
-        <label for="_role">Role</label>
-        <select id="_role" >
-            {{ if eq .edituid.Role "admin" }}
-                <option value="admin" selected>admin</option>
-                <option value="user">user</option>
-            {{ else }}
-                <option value="admin">admin</option>
-                <option value="user" selected>user</option>
-            {{ end }}
-        </select>
-        <input type="button" value="Update role" class="subbutton" onclick="setRole()" />
-    </form>
+    <div class="configbox">
+        <form id="updateuser" class="form-edituser">
+            <label for="_role">Role</label>
+            <select id="_role" >
+                {{ if eq .edituid.Role "admin" }}
+                    <option value="admin" selected>admin</option>
+                    <option value="user">user</option>
+                {{ else }}
+                    <option value="admin">admin</option>
+                    <option value="user" selected>user</option>
+                {{ end }}
+            </select>
+            <input type="button" value="Update role" class="subbutton" onclick="setRole()" />
+        </form>
+    </div>
     <br>
-    <form id="updateaccesstime" class="form-edituser">
-        <table>
-            <tr>
-                <td style="text-align: left;">
-                    <label for="_act">Access time: {{ .act }}</label>
-                </td>
-            <tr>
-                <td style="text-align: right;">
-                    <label for="_min">Minutes</label>
-                    <input type="text" id="_min" value="0" />
-                    <div style="text-align: center;">hour=60, day=1440, week=10080, month=43200</div>
-                </td>
-            </tr>
-            <tr>
-                <td >
-                    <label for="_btn" style="color: lightgrey;">Minutes</label>
-                    <input type="button" value="Update access time" class="subbutton" onclick="setAccessTime()" />
-                </td>
-            </tr>
-        </table>
-    </form>
+    <div class="configbox">
+        <form id="updateaccesstime" class="form-edituser">
+            <table>
+                <tr>
+                    <td style="text-align: left;">
+                        <label for="_act">Access time: {{ .act }}</label>
+                    </td>
+                <tr>
+                    <td style="text-align: right;">
+                        <label for="_min">Minutes</label>
+                        <input type="text" id="_min" value="0" />
+                        <div style="text-align: center;">hour=60, day=1440, week=10080, month=43200</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        <label for="_btn" style="color: lightgrey;">Minutes</label>
+                        <input type="button" value="Update access time" class="subbutton" onclick="setAccessTime()" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
     <br>
     {{ end }}
+    <div class="configbox">
     <form id="changepassword" action="/user/psw" method="post"  class="form-edituser">
         <table>
             <tr>
@@ -80,6 +85,7 @@
             </tr>
         </table>
     </form>
+    </div>
 </div>
 <script src="/js/{{ .js }}"></script>
 </body>
