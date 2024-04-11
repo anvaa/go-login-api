@@ -17,7 +17,7 @@ func IsValidEmail(email string) error {
 
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	if !emailRegex.MatchString(email) {
-		err = errors.New("email must be valid")
+		err = errors.New("not a valid username")
 		return err
 	}
 
@@ -103,7 +103,7 @@ func EmailToUser(email string) (models.Users, error) {
 	var user models.Users
 
 	if email == "" {
-		err = errors.New("email must be longer than 0 characters")
+		err = errors.New("username must be longer than 0 characters")
 		return user, err
 	}
 	

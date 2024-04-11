@@ -1,0 +1,38 @@
+{{ template "header.html" . }}
+{{ template "navbar.html" . }}
+<p id="_usermessage" class="errmessage"></p>
+<table class="table-users">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Authorized</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        {{ range .users }}
+        <tr class="tr-list-users">
+            <form class="authform{{ .Id }}" action="/user/auth/{{ .Id }}" method="post">
+                <td>
+                    {{ .Id }}
+                </td>
+                <td>
+                    <a href="/v/user/{{ .Id }}">{{ .Email }}</a>
+                </td>
+                <td>{{ .Role }}</td>
+                <td>
+                    <input type="checkbox" name="isauth" {{ if .IsAuth }}checked{{ end }}>
+                </td>
+                <td>
+                    <button type="submit" class="subbutton">Change auth</button>
+                </td>
+            </form>
+        </tr>
+        {{ end }}
+    </tbody>
+
+<script src="/js/{{ .js }}"></script>
+</body>
+</html>

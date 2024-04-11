@@ -3,49 +3,60 @@ package routers
 import (
 	"controllers"
 	"middleware"
-
+	
 	"os"
+
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter(wd string) *gin.Engine {
-	gin.SetMode(os.Getenv("GIN_MODE"))
+// SetupRouter sets up the routes for the application
+func SetupRouter() *gin.Engine {
+
+	if os.Getenv("GIN_MODE") == "debug" {
+		gin.SetMode(gin.DebugMode)
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	r := gin.Default()
 	r.SetTrustedProxies(nil)
 
-	r.Static("/css", wd + "/templates/css")
-	r.Static("/js", wd + "/templates/js")
-	r.Static("/share", wd + "/share")
-	r.Static("/tmpl", wd + "/templates")
+	if os.Getenv("GIN_MODE") == "debug" {
+		r.Static("/css", "embedfiles/web/css")
+		r.Static("/js", "embedfiles/web/js")
+		r.Static("/share", "embedfiles/share")
+		r.LoadHTMLGlob("embedfiles/web/html/*.html")
+	} else {
+		r.Static("/css", ".static/css")
+		r.Static("/js", ".static/js")
+		r.Static("/share", ".static/share")
+		r.LoadHTMLGlob(".static/html/*.html")	
+	}
 
-	r.LoadHTMLGlob(wd + "/templates/*.gohtml")
+	r.GET("/", controllers.Index)
 
+	r.POST("/signup", controllers.ViewSignup)
+	r.GET("/signup", controllers.ViewSignup)
 
-	go r.GET("/", controllers.Index)
-	
-	go r.POST("/signup", controllers.ViewSignup)
-	go r.GET("/signup", controllers.ViewSignup)
+	r.POST("/login", controllers.ViewLogin)
+	r.GET("/login", controllers.ViewLogin)
 
-	go r.POST("/login", controllers.ViewLogin)
-	go r.GET("/login", controllers.ViewLogin)
-
-	go r.POST("/logout", controllers.Logout)
+	r.POST("/logout", controllers.Logout)
 
 	userRoutes := r.Group("/user")
-	{	
+	{
 		userRoutes.Use(middleware.RequireAuth)
 		userRoutes.Use(middleware.IsAdmin)
 		userRoutes.Use(middleware.IsAuth)
 
-		go userRoutes.GET("/", controllers.GetUsers)
-		go userRoutes.GET("/:id", controllers.GetUser)
+		userRoutes.GET("/", controllers.GetUsers)
+		userRoutes.GET("/:id", controllers.GetUser)
 		// go userRoutes.PUT("/:id", controllers.UpdateUser)
-		go userRoutes.POST("/delete/:id", controllers.DeleteUser)
-		go userRoutes.POST("/auth", controllers.UpdateAuth)
-		go userRoutes.POST("/role", controllers.UpdateRole)
-		go userRoutes.POST("/psw", controllers.SetNewPassword)
-		go userRoutes.POST("/act", controllers.SetAct)
+		userRoutes.POST("/delete/:id", controllers.DeleteUser)
+		userRoutes.POST("/auth", controllers.UpdateAuth)
+		userRoutes.POST("/role", controllers.UpdateRole)
+		userRoutes.POST("/psw", controllers.SetNewPassword)
+		userRoutes.POST("/act", controllers.SetAct)
 	}
 
 	viewRoutes := r.Group("/v")
@@ -54,13 +65,13 @@ func SetupRouter(wd string) *gin.Engine {
 		viewRoutes.Use(middleware.IsAuth)
 
 		// not admin
-		go viewRoutes.GET("/home", controllers.ViewHome)
-		go viewRoutes.GET("/userhome", controllers.ViewUserHome)
+		viewRoutes.GET("/home", controllers.ViewHome)
+		viewRoutes.GET("/userhome", controllers.ViewUserHome)
 
 		// is admin
-		go viewRoutes.GET("/adminhome", middleware.IsAdmin, controllers.ViewAdminHome)
-		go viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
-		go viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)
+		viewRoutes.GET("/adminhome", middleware.IsAdmin, controllers.ViewAdminHome)
+		viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
+		viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)
 	}
 
 	return r

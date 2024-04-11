@@ -1,7 +1,9 @@
 package main
 
 import (
+	
 	"filefunc"
+	"embedfiles"
 	"initializers"
 	"log"
 	"os"
@@ -12,6 +14,16 @@ var WD string
 
 func init() {
 	WD = getWD()
+	dbpath := WD + "/data/users.db"
+
+	// Create the http.FileSystem using the embedded files
+	embedfiles.GetWebFS()
+	embedfiles.EmbedFilesToDisk()
+	
+	err := embedfiles.EmbedFiles()
+	if err != nil {
+		log.Fatal(err)
+	}
 	
 	envFile := WD + "/.env"
 	if !filefunc.IsExists(envFile) {
@@ -25,14 +37,16 @@ func init() {
 		filefunc.CreateFolder(dataFolder)
 	}
 
-	shareFolder := WD + "/share"
-	if !filefunc.IsExists(shareFolder) {
-		log.Println("No data folder found. Creating one...")
-		filefunc.CreateFolder(shareFolder)
-	}
+	// shareFolder := WD + "/embededfiles/share"
+	// if !filefunc.IsExists(shareFolder) {
+	// 	log.Println("No share folder found. Creating one...")
+	// 	filefunc.CreateFolder(shareFolder)
+	// }
+
+	
 	
 	initializers.LoadEnv(WD)
-	initializers.ConnectToDB(os.Getenv("DB_PATH"))
+	initializers.ConnectToDB(dbpath)
 	initializers.SyncDB()
 }
 
@@ -54,7 +68,7 @@ func main() {
 
 	// log.Println(os.Environ())
 
-	r := routers.SetupRouter(WD)
+	r := routers.SetupRouter()
 
 	r.Run()
 }

@@ -1,13 +1,15 @@
-go 1.21.3
+go 1.22.2
 
 use (
 	.
+	./config
 	./controllers
+	./embedfiles
 	./filefunc
 	./global
 	./initializers
 	./middleware
 	./models
 	./routers
-	./templates
+	
 )

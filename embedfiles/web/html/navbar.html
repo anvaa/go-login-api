@@ -1,0 +1,23 @@
+{{ template "header.html" . }}
+    <table >
+        <tr>
+            <th class="topmenu-th">
+                <input type="button" value="New users" class="menubutton" onclick="userhomeClick()" />
+            </th>
+            {{ if eq .user.Role "admin" }}
+            <th class="topmenu-th">
+                <input type="button" value="Manage users" class="menubutton" onclick="mngusersClick()" />
+            </th>
+            {{ end }}
+            <th style="width: 100%; text-align: right;" class="topmenu-th">
+                <label class="admin-text">
+                    {{ .user.Role }}: {{ .user.Email }}
+                </label>
+            </th>
+            <th class="topmenu-th">
+                <input type="button" value="Logout" class="menubutton" onclick="logoutClick()" />
+            </th>
+        </tr>
+    </table>
+    <div id="_message" class="errmessage"></div>
+<script src="/js/navbar.js"></script>

@@ -3,31 +3,37 @@ package controllers
 import (
 	"global"
 	"models"
+	
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
+
 func Index(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.gohtml", gin.H{
-		"title": "Home",
-		"css":  "index.css",
-		"js":   "index.js",
-		"logo": "logo.png",
+
+	info2 := time.Now().Format("2006-01-02 15:04:05") 
+
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"title": "Login Api by LAHB",
+		"info1":   "Login Api by LAHB",
+		"info2":   "🇳🇴 "+info2,
+		"css":   "index.css",
 	})
 }
 
 func ViewSignup(c *gin.Context) {
-	
+
 	if c.Request.Method == "POST" {
 		SignUp(c)
 		return
 	}
 
-	c.HTML(http.StatusOK, "signup.gohtml", gin.H{
+	c.HTML(http.StatusOK, "signup.html", gin.H{
 		"title": "Signup",
-		"css": "user.css",
-		"js": "signup.js",
+		"css":   "index.css",
+		"js":    "signup.js",
 	})
 }
 
@@ -38,68 +44,68 @@ func ViewLogin(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "login.gohtml", gin.H{
+	c.HTML(http.StatusOK, "login.html", gin.H{
 		"title": "Login",
-		"user": c.Keys["user"],
-		"css": "user.css",
-		"js": "login.js",
+		"user":  c.Keys["user"],
+		"css":   "index.css",
+		"js":    "login.js",
 	})
 }
 
 func ViewHome(c *gin.Context) {
-	c.HTML(http.StatusOK, "home.gohtml", gin.H{
+	c.HTML(http.StatusOK, "home.html", gin.H{
 		"title": "Home",
-		"user": c.Keys["user"],
-		"css": "user.css",
+		"user":  c.Keys["user"],
+		"css":   "user.css",
 	})
 }
 
 func ViewUserHome(c *gin.Context) {
-	c.HTML(http.StatusOK, "user_home.gohtml", gin.H{
+	c.HTML(http.StatusOK, "user_home.html", gin.H{
 		"title": "Home",
-		"user": c.Keys["user"],
-		"css": "user.css",
-		"js": "home.gojs",
-		"act": global.ActToString(c.Keys["user"].(models.Users).AccessTime),
+		"user":  c.Keys["user"],
+		"css":   "user.css",
+		"js":    "home.js",
+		"act":   global.ActToString(c.Keys["user"].(models.Users).AccessTime),
 	})
 }
 
 func ViewAdminHome(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin_home.gohtml", gin.H{
-		"title": "Admin Home",
-		"user": c.Keys["user"],
-		"css": "user.css",
-		"js": "users.gojs",
-		"act": global.ActToString(c.Keys["user"].(models.Users).AccessTime),	
-		"newhusers": global.GetNewUsers(),
-		"countnew": global.GetCountNewUsers(),
+	c.HTML(http.StatusOK, "admin_home.html", gin.H{
+		"title":     "Admin Home",
+		"user":      c.Keys["user"],
+		"css":       "user.css",
+		"js":        "users.js",
+		"act":       global.ActToString(c.Keys["user"].(models.Users).AccessTime),
+		"newusers": global.GetNewUsers(),
+		"countnew":  global.GetCountNewUsers(),
 	})
 }
 
 func ViewManageUsers(c *gin.Context) {
-	c.HTML(http.StatusOK, "users.gohtml", gin.H{
-		"title": "Manage Users",
-		"user": c.Keys["user"],
-		"css": "user.css",
-		"js": "users.gojs",
-		"authusers": global.GetAuthUsers(),
-		"countauth": global.GetCountAuthUsers(),
+	c.HTML(http.StatusOK, "users.html", gin.H{
+		"title":       "Manage Users",
+		"user":        c.Keys["user"],
+		"css":         "user.css",
+		"js":          "users.js",
+		"authusers":   global.GetAuthUsers(),
+		"countauth":   global.GetCountAuthUsers(),
 		"unauthusers": global.GetUnauthUsers(),
 		"countunauth": global.GetCountUnauthUsers(),
-		"delusers": global.GetDeletedUsers(),
-		"countdel": global.GetCountDeletedUsers(),
+		"delusers":    global.GetDeletedUsers(),
+		"countdel":    global.GetCountDeletedUsers(),
 	})
 }
 
 func ViewEditUser(c *gin.Context) {
 	uid := c.Param("id")
-	c.HTML(http.StatusOK, "edit_user.gohtml", gin.H{
-		"title": "Edit User",
-		"user": c.Keys["user"],
+	c.HTML(http.StatusOK, "edit_user.html", gin.H{
+		"title":   "Edit User",
+		"user":    c.Keys["user"],
 		"edituid": global.GetUser(uid),
-		"css": "user.css",
-		"js": "edit_user.gojs",
-		"act": global.ActToString(global.GetUser(uid).AccessTime),
+		"css":     "user.css",
+		"js":      "edit_user.js",
+		"act":     global.ActToString(global.GetUser(uid).AccessTime),
 	})
 
 }

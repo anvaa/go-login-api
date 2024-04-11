@@ -135,25 +135,25 @@ func Login(c *gin.Context) {
 	user, err := global.EmailToUser(email)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Email or password is invalid"})
+			"message": "user or password is invalid"})
 		return
 	}
 	
 	if !global.EmailExists(email) {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Email or password is invalid"})
+			"message": "user or password is invalid"})
 		return
 	}
 
 	if !global.CheckPasswordHash(password, user.Password) {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Email or password is invalid"})
+			"message": "user or password is invalid"})
 		return
 	}
 
 	if !user.IsAuth {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "User is not authenticated"})
+			"message": "user not authenticated"})
 		return
 	}
 

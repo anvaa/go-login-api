@@ -1,0 +1,39 @@
+{{ template "navbar.html" . }}
+    <div class="user-home">
+        <p class="header-text">Manage guests</p>
+        <form id="newguest-form">
+            <input type="text" name="name" id="name" placeholder="Enter nickname" />
+            <input type="text" name="password" id="password" placeholder="Enter password" />
+            <input type="hidden" name="userid" id="userid" value="{{ .user.Id }}" />
+            <br><br>
+            <input type="submit" value="Add guest" class="subbutton" />
+        <p id="message" class="errmessage"></p>
+        </form>
+        
+        <table>
+            <tr>
+                <th colspan="2" class="list-header">Your guests</th>
+            </tr>
+                {{ if .guests }}
+                    {{ range .guests }}
+                    <tr>
+                        <td class="editnote-text">
+                            <p value="{{ .Id }}" id="delbtn" class="editbutton" action="click">Delete</p>
+                        </td>
+                    <td>
+                        <a href="/guests/{{ .Id }}" class="listGuest-text">{{ .Name }}</a>
+                    </td>
+                    </tr>
+                    {{ end }}
+                {{ else }}    
+                <tr>
+                <td colspan="3">No guests found</td>
+                </tr>
+                {{ end }}
+        </table>
+    </div>
+
+<script src="/js/guest.js"></script>
+
+</body>
+</html>
