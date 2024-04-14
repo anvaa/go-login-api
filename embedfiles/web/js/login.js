@@ -37,26 +37,26 @@ async function loginClick() {
     password: password
   };
 
-try {
-  const response = await fetch("/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    });
 
-  const responseData = await response.json();
+    const responseData = await response.json();
 
-  if (!response.ok) {
-    throw new Error('Server error');
+    if (!response.ok) {
+      throw new Error('Server error');
+    }
+
+    window.location.href = responseData.url;
+  } catch (error) {
+    messageElement.innerHTML = "Login failed: " + error.message;
+    messageElement.style.border = "1px solid red";
   }
-
-  window.location.href = responseData.url;
-} catch (error) {
-  messageElement.innerHTML = "Login failed: " + error.message;
-  messageElement.style.border = "1px solid red";
-}
   
 };
 

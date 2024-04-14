@@ -1,7 +1,7 @@
+var messageElement = document.getElementById("_message");
 
 async function delClick() {
         
-    var messageElement = document.getElementById("_message");
     var uid = document.getElementById("_uid").value;
     var email = document.getElementById("_email").value;
     
@@ -29,7 +29,6 @@ async function delClick() {
         });
     
         if (!response.ok) {
-        //   throw new Error('Server error');
             messageElement.innerHTML = error.message;
         }
     

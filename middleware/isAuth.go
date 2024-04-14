@@ -12,7 +12,7 @@ func IsAuth(c *gin.Context) {
 	
 	user := c.MustGet("user").(models.Users)
 	
-	if user.IsAuth != true {
+	if !user.IsAuth {
 		onErrAuth(c)
 		return
 	}

@@ -1,9 +1,7 @@
-
-const messageElement = document.getElementById("_message");
-
-async function setAuthClick(uid) {
-
-    var isAuth = document.getElementById("_auth"+uid).value;
+async function setAuth(uid) {
+    
+    const isAuth = document.getElementById("_auth" + uid).value;
+    const messageElement = document.getElementById("message");
 
     var authData = {
         id: uid,
@@ -20,10 +18,11 @@ async function setAuthClick(uid) {
         if (!response.ok) {
             messageElement.innerHTML = error.message;
             messageElement.style.border = "1px solid red";
-        } 
+            return;
+        }
 
         window.location.href = "/v/users";
-        } catch (error) {
+    } catch (error) {
         messageElement.innerHTML = "Change auth failed: " + error.message;
         messageElement.style.border = "1px solid red";
     }
