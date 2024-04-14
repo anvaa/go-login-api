@@ -1,14 +1,15 @@
 
+const messageElement = document.getElementById("_message");
+
 function mngusersClick() {
     window.location.href = "/v/users";
 }
 
-function userhomeClick() {
-    window.location.href = "/v/home";
+function newUserClick() {
+    window.location.href = "/v/newusers";
 }
 
 async function logoutClick() {
-    var messageElement = document.getElementById("_message");
     
     try {
         const response = await fetch("/logout", {

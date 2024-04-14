@@ -7,6 +7,6 @@ import (
 func SyncDB() {
 	DB.AutoMigrate(
 		&models.Users{},
-	
+		&models.Links{},
 	)
 }

@@ -1,4 +1,6 @@
 
+const messageElement = document.getElementById("_message");
+
 document.getElementById("_password1").addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     signupClick();
@@ -25,8 +27,6 @@ async function signupClick() {
   const email = document.getElementById("_email").value;
   const password = document.getElementById("_password1").value;
   const password2 = document.getElementById("_password2").value;
-  const messageElement = document.getElementById("_message");
-  messageElement.style.border = "1px solid red";
 
   if (!validatePasswords(password, password2)) {
     return; // Message is set inside the validatePasswords function
@@ -41,13 +41,16 @@ async function signupClick() {
       body: JSON.stringify(userData),
     });
 
+    const responseData = await response.json();
+
     if (!response.ok) {
       throw new Error('Server error');
     }
 
-    window.location.href = "/login";
+    window.location.href = responseData.url;
   } catch (error) {
     messageElement.innerHTML = "Signup failed: " + error.message;
+    messageElement.style.border = "1px solid red";
   }
 };
   

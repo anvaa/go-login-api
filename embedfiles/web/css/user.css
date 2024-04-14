@@ -194,7 +194,7 @@ select {
     font-family: monospace;
     border: 1px solid black;
     background-color: lightgray;
-    /* width: fit-content; */
+    
 }
 
 .form-edituser {

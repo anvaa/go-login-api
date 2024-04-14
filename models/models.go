@@ -6,13 +6,17 @@ import (
 
 type Users struct {
 	gorm.Model
-	Id uint `gorm:"primaryKey, autoIncrement"` 
-	Email string `gorm:"unique, size:255"`
-	Password string `gorm:"not null, size:50"`
-	Role string `gorm:"default:user, size:10"`
-	IsAuth bool `gorm:"default:false"`
-	AccessTime int `gorm:"default:3600"`
+	Id         int    `gorm:"primaryKey, autoIncrement"`
+	Email      string `gorm:"unique, size:255"`
+	Password   string `gorm:"not null, size:255"`
+	Role       string `gorm:"default:user, size:20"`
+	IsAuth     bool   `gorm:"default:false"`
+	AccessTime int    `gorm:"default:3600"` // 1 hour
 }
 
-
-
+type Links struct {
+	gorm.Model
+	Id     int    `gorm:"primaryKey, autoIncrement"`
+	Url    string `gorm:"not null"`
+	UserId int    `gorm:"default:0"`
+}

@@ -3,8 +3,8 @@ package controllers
 import (
 	"filefunc"
 	"fmt"
-	"initializers"
 	"global"
+	"initializers"
 
 	"log"
 	"models"
@@ -19,7 +19,7 @@ import (
 func SignUp(c *gin.Context) {
 	var body struct {
 		Email     string `json:"email"`
-		Password string `json:"password"`
+		Password  string `json:"password"`
 		Password2 string `json:"password2"`
 	}
 	log.Print(body)
@@ -54,7 +54,7 @@ func SignUp(c *gin.Context) {
 			"message": err.Error()})
 		return
 	}
-	
+
 	// check if the email is already in use
 	if global.EmailExists(email) {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -73,17 +73,20 @@ func SignUp(c *gin.Context) {
 	// first user gets to be admin
 	role := "user"
 	isauth := false
+	accessTime := 3600 // 1 hour
 	if global.CountUsers() == 0 {
 		role = "admin"
 		isauth = true
+		accessTime = 10800 // 3 hours
 	}
 
 	// create a user
 	user := models.Users{
-		Email:    email,
-		Password: string(hashedPassword),
-		Role: role,
-		IsAuth: isauth,
+		Email:      email,
+		Password:   string(hashedPassword),
+		Role:       role,
+		IsAuth:     isauth,
+		AccessTime: accessTime,
 	}
 
 	if err := initializers.DB.Create(&user).Error; err != nil {
@@ -92,9 +95,10 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	// return the user
+	// return
 	c.JSON(http.StatusOK, gin.H{
-		"message": "success"})
+		"message": "success",
+		"url":     "/login"})
 
 }
 
@@ -103,7 +107,7 @@ func Login(c *gin.Context) {
 	var body struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
-		IsAuth bool `json:"isauth"`
+		IsAuth   bool   `json:"isauth"`
 	}
 
 	if c.BindJSON(&body) != nil {
@@ -138,7 +142,7 @@ func Login(c *gin.Context) {
 			"message": "user or password is invalid"})
 		return
 	}
-	
+
 	if !global.EmailExists(email) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "user or password is invalid"})
@@ -171,14 +175,20 @@ func Login(c *gin.Context) {
 
 	// accesstime := global.SetDefaultAccessTime()
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("goAuth", tokenString, user.AccessTime, "/", "", false, true)
+	c.SetCookie("lahbAuth", tokenString, user.AccessTime, "/", "", false, true)
 
-	usrFolder := fmt.Sprintf(os.Getenv("WORKING_FOLDER") + "/share/%d/files", user.Id)
+	usrFolder := fmt.Sprintf(os.Getenv("WORKING_FOLDER")+"/share/%d/files", user.Id)
 	filefunc.CreateFolder(usrFolder)
+
+	url := "/v/userhome"
+	if user.Role == "admin" {
+		url = "/v/newusers"
+	}
 	
+	// return
 	c.JSON(http.StatusOK, gin.H{
-		"message": "/v/home",
-	})
+		"message": "success",
+		"url": url,})
 
 }
 
@@ -249,7 +259,7 @@ func GetUser(c *gin.Context) {
 
 func DeleteUser(c *gin.Context) {
 	var body struct {
-		Id    string `json:"id"`
+		Id string `json:"id"`
 	}
 
 	if c.BindJSON(&body) != nil {
@@ -289,7 +299,7 @@ func Validate(c *gin.Context) {
 
 func UpdateAuth(c *gin.Context) {
 	var body struct {
-		Id    string `json:"id"`
+		Id string `json:"id"`
 	}
 
 	if c.BindJSON(&body) != nil {
@@ -327,12 +337,12 @@ func UpdateAuth(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success"})
-	
+
 }
 
 func UpdateRole(c *gin.Context) {
 	var body struct {
-		Id    string `json:"id"`
+		Id   string `json:"id"`
 		Role string `json:"role"`
 	}
 
@@ -341,7 +351,7 @@ func UpdateRole(c *gin.Context) {
 			"message": "failed to read body"})
 		return
 	}
-	
+
 	var user models.Users
 	if err := initializers.DB.Where("id = ?", body.Id).First(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -365,12 +375,12 @@ func UpdateRole(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success"})
-	
+
 }
 
 func SetNewPassword(c *gin.Context) {
 	var body struct {
-		Id    string `json:"id"`
+		Id       string `json:"id"`
 		Password string `json:"password"`
 	}
 
@@ -414,7 +424,7 @@ func SetNewPassword(c *gin.Context) {
 
 func SetAct(c *gin.Context) {
 	var body struct {
-		Id    string `json:"id"`
+		Id         string `json:"id"`
 		AccessTime string `json:"accesstime"`
 	}
 

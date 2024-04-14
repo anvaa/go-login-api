@@ -65,11 +65,10 @@ func SetupRouter() *gin.Engine {
 		viewRoutes.Use(middleware.IsAuth)
 
 		// not admin
-		viewRoutes.GET("/home", controllers.ViewHome)
 		viewRoutes.GET("/userhome", controllers.ViewUserHome)
 
 		// is admin
-		viewRoutes.GET("/adminhome", middleware.IsAdmin, controllers.ViewAdminHome)
+		viewRoutes.GET("/newusers", middleware.IsAdmin, controllers.ViewNewUsers)
 		viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
 		viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)
 	}

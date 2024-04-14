@@ -14,7 +14,7 @@ import (
 
 func RequireAuth(c *gin.Context) {
 	// Get the JWT string from the header
-	tokenString, err := c.Cookie("goAuth")
+	tokenString, err := c.Cookie("lahbAuth")
 	if err != nil {
 		// c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
 		onErr(c)

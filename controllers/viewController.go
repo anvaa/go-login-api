@@ -1,9 +1,10 @@
 package controllers
 
 import (
+	"fmt"
 	"global"
 	"models"
-	
+
 	"net/http"
 	"time"
 
@@ -52,26 +53,21 @@ func ViewLogin(c *gin.Context) {
 	})
 }
 
-func ViewHome(c *gin.Context) {
-	c.HTML(http.StatusOK, "home.html", gin.H{
-		"title": "Home",
-		"user":  c.Keys["user"],
-		"css":   "user.css",
-	})
-}
-
 func ViewUserHome(c *gin.Context) {
 	c.HTML(http.StatusOK, "user_home.html", gin.H{
 		"title": "Home",
 		"user":  c.Keys["user"],
 		"css":   "user.css",
-		"js":    "home.js",
+		"js":    "user_home.js",
 		"act":   global.ActToString(c.Keys["user"].(models.Users).AccessTime),
 	})
 }
 
-func ViewAdminHome(c *gin.Context) {
-	c.HTML(http.StatusOK, "admin_home.html", gin.H{
+func ViewNewUsers(c *gin.Context) {
+
+	fmt.Println("ViewNewUsers")
+
+	c.HTML(http.StatusOK, "newusers.html", gin.H{
 		"title":     "Admin Home",
 		"user":      c.Keys["user"],
 		"css":       "user.css",
