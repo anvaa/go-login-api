@@ -10,7 +10,8 @@ Usage:<br>
 - data/app.db and .app will be created on first run<br>
 - First user to sign up will be admin<br><br>
 
-Before relese:<br>
+Before release:<br>
 - Remeber to set GIN_MODE="release" in .app<br>
+- Set https=0 if you want to run http<br><br>
 
-- Hope you enjoy it. Good luck<br>
+- Hope you enjoy it. Good luck!
