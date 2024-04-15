@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"global"
 	"models"
 
@@ -64,23 +63,20 @@ func ViewUserHome(c *gin.Context) {
 }
 
 func ViewNewUsers(c *gin.Context) {
-
-	fmt.Println("ViewNewUsers")
-
 	c.HTML(http.StatusOK, "newusers.html", gin.H{
-		"title":     "Admin Home",
+		"title":     "New users",
 		"user":      c.Keys["user"],
 		"css":       "user.css",
 		"js":        "users.js",
 		"act":       global.ActToString(c.Keys["user"].(models.Users).AccessTime),
-		"newusers": global.GetNewUsers(),
+		"newusers":  global.GetNewUsers(),
 		"countnew":  global.GetCountNewUsers(),
 	})
 }
 
 func ViewManageUsers(c *gin.Context) {
 	c.HTML(http.StatusOK, "users.html", gin.H{
-		"title":       "Manage Users",
+		"title":       "Manage All Users",
 		"user":        c.Keys["user"],
 		"css":         "user.css",
 		"js":          "users.js",

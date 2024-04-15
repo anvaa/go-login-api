@@ -11,7 +11,7 @@
         <th  class="td-list-header">Updates</th>
     </tr>
     </thead>
-    <tbody>
+    <body>
         {{ range .authusers }}
         <tr>
             <form class="authform">
@@ -36,20 +36,18 @@
                 </td>
                 <td class="td-list-users">
                     <script>
-                        var date = new Date({{ .CreatedAt }});
-                        document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        document.write(new Date({{ .CreatedAt }}).toISOString().slice(0, 19).replace('T', ' '));
                     </script>
                 </td>
                 <td class="td-list-users" title="Last updates">
                     <script>
-                        var date = new Date({{ .UpdatedAt }});
-                        document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        document.write(new Date({{ .UpdatedAt }}).toISOString().slice(0, 19).replace('T', ' '));
                     </script>
                 </td>
             </form>
         </tr>
         {{ end }}
-    </tbody>
+    </body>
 </table>
 <br>
 <table class="table-users">
@@ -65,7 +63,7 @@
         
     </tr>
     </thead>
-    <tbody>
+    <body>
         {{ range .unauthusers }}
         <tr class="tr-list-users">
             <form class="authform">
@@ -90,20 +88,18 @@
                 </td>
                 <td class="td-list-users">
                     <script>
-                        var date = new Date({{ .CreatedAt }});
-                        document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        document.write(new Date({{ .CreatedAt }}).toISOString().slice(0, 19).replace('T', ' '));
                     </script>
                 </td>
                 <td class="td-list-users" title="Last updates">
                     <script>
-                        var date = new Date({{ .UpdatedAt }});
-                        document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        document.write(new Date({{ .UpdatedAt }}).toISOString().slice(0, 19).replace('T', ' '));
                     </script>
                 </td>
             </form>
         </tr>
         {{ end }}
-    </tbody>
+    </body>
 </table>
 <br>
 <table class="table-users">
@@ -119,7 +115,7 @@
         
     </tr>
     </thead>
-    <tbody>
+    <body>
         {{ range .delusers }}
         <tr class="tr-list-users">
             <form class="authform">
@@ -139,24 +135,23 @@
                 </td>
                 <td class="td-list-users">
                     <script>
-                        var date = new Date({{ .UpdatedAt }});
-                        document.write(date.toISOString().slice(0, 19).replace('T', ' '));
+                        document.write(new Date({{ .CreatedAt }}).toISOString().slice(0, 19).replace('T', ' '));
                     </script>
                 </td>
                 <td class="td-list-users">
                     <script>
-                        var date = new Date({{ .DeletedAt }});
-                        // if (date.getFullYear() == 1970) {
-                        //     document.write("Not deleted");
-                        // } else {
-                            document.write(date.toISOString().slice(0, 19).replace('T', ' '));
-                        // }
+                        document.write(new Date({{ .UpdatedAt }}).toISOString().slice(0, 19).replace('T', ' '));
+                    </script>
+                </td>
+                <td class="td-list-users" title="Last updates">
+                    <script>
+t                        document.write(new Date({{ .DeletedAt }}).toISOString().slice(0, 19).replace('T', ' '));
                     </script>
                 </td>
             </form>
         </tr>
         {{ end }}
-    </tbody>
+    </body>
 </table>
 
 <script src="/js/{{ .js }}"></script>
