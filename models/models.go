@@ -17,6 +17,6 @@ type Users struct {
 type Links struct {
 	gorm.Model
 	Id     int    `gorm:"primaryKey, autoIncrement"`
-	Url    string `gorm:"not null"`
+	Url    string `gorm:"default:/v/appstart"`
 	UserId int    `gorm:"default:0"`
 }

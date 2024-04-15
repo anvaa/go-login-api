@@ -43,7 +43,6 @@ async function delClick() {
 async function setPswClick() {
         
     var messageElement = document.getElementById("_message");
-    messageElement.style.border = "1px solid red";
     
     var uid = document.getElementById("_uid").value;
     var psw1 = document.getElementById("_password1").value;
@@ -67,12 +66,13 @@ async function setPswClick() {
     
         if (!response.ok) {
             messageElement.innerHTML = error.message;
+            messageElement.style.border = "1px solid red";
         }
     
         window.location.href = "/v/user/" + uid;
         } catch (error) {
         messageElement.innerHTML = "Change password failed: " + error.message;
-
+        messageElement.style.border = "1px solid red";
     }
 }
 
@@ -101,7 +101,6 @@ function validatePasswords(password, password2) {
 async function setRole() {
         
     var messageElement = document.getElementById("_message");
-    messageElement.style.border = "1px solid red";
 
     var id = document.getElementById("_uid").value;
     var role = document.getElementById("_role").value;
@@ -120,18 +119,19 @@ async function setRole() {
     
         if (!response.ok) {
             messageElement.innerHTML = error.message;
+            messageElement.style.border = "1px solid red";
         } 
 
         window.location.href = "/v/user/" + id;
         } catch (error) {
         messageElement.innerHTML = "Change role failed: " + error.message;
+        messageElement.style.border = "1px solid red";
     }
 }
 
 async function setAccessTime() {
         
     var messageElement = document.getElementById("_message");
-    messageElement.style.border = "1px solid red";
     
     var uid = document.getElementById("_uid").value;
     var min = document.getElementById("_min").value;
@@ -150,11 +150,43 @@ async function setAccessTime() {
     
         if (!response.ok) {
             messageElement.innerHTML = error.message;
+            messageElement.style.border = "1px solid red";
         }
     
         window.location.href = "/v/user/" + uid;
         } catch (error) {
         messageElement.innerHTML = "Change access time failed: " + error.message;
+        messageElement.style.border = "1px solid red";
+    }
+}
 
+async function setUrl() {
+        
+    var messageElement = document.getElementById("_message");
+
+    var id = document.getElementById("_uid").value;
+    var url = document.getElementById("_url").value;
+    
+    var userData = {
+        id: id,
+        url: url,
+    };
+
+    try {
+        const response = await fetch("/user/url", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        });
+    
+        if (!response.ok) {
+            messageElement.innerHTML = error.message;
+            messageElement.style.border = "1px solid red";
+        } 
+
+        window.location.href = "/v/user/" + id;
+    } catch (error) {
+        messageElement.innerHTML = "Change url failed: " + error.message;
+        messageElement.style.border = "1px solid red";
     }
 }

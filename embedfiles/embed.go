@@ -9,7 +9,6 @@ import (
 )
 
 //go:embed web/*
-//go:embed share/*
 var static embed.FS
 
 // EmbedFiles embeds the files in the web and share folders

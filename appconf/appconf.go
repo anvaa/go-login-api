@@ -14,9 +14,9 @@ func init() {
 }
 
 func WriteDefaultConfig(appRoot string) {
-	AppConf.SetDefault("https", "true")
+	AppConf.SetDefault("https", "false")
 	AppConf.SetDefault("port", "8090")
-	AppConf.SetDefault("gin_mode", "release")
+	AppConf.SetDefault("gin_mode", "debug")
 	AppConf.SetDefault("root_folder", appRoot)
 	AppConf.SetDefault("db_path", appRoot+"/data/app.db")
 	AppConf.SetDefault("jwt_secret", "DEBUG_MODE_TEST_KEY_v41_J_ZQc022qQUGCzXq_Iu")

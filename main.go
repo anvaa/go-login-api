@@ -38,6 +38,7 @@ func init() {
 	if !filefunc.IsExists(dataFolder) {
 		log.Println("No data folder found. Creating one...")
 		filefunc.CreateFolder(dataFolder)
+		filefunc.CreateFile(appconf.GetVal("db_path"))
 	}
 
 	dbpath := appconf.GetVal("db_path")

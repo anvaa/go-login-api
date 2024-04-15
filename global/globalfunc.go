@@ -53,49 +53,27 @@ func EmailExists(email string) bool {
 	return true
 }
 
-func UintToString(uid uint) string {
-	return strconv.Itoa(int(uid))
+func IntToString(uid int) string {
+	return strconv.Itoa(uid)
 }
 
-func UserToUInt(uid string) (uint, error) {
-	var err error
-
-	if uid == "" {
-		err = errors.New("uid must be longer than 0 characters")
-		return 0, err
-	}
-
-	id, err := strconv.Atoi(uid)
-	if err != nil {
-		err = errors.New("uid must be a number")
-		return 0, err
-	}
-
-	return uint(id), nil
-}
-
-func GetEmailFromUid(uid uint) string {
+func GetEmailFromUid(uid int) string {
 	var user models.Users
 	initializers.DB.Where("id = ?", uid).First(&user)
 	return user.Email
 }
 
-func UIntToUser(uid uint) (models.Users, error) {
-	var err error
-	var user models.Users
+func GetUserUrl(uid string) string {
+	var url models.Links
+	initializers.DB.Where("user_id = ?", uid).First(&url)
 
-	if uid == 0 {
-		err = errors.New("uid must be longer than 0 characters")
-		return user, err
+	if url.Url == "" {
+		url.Url = "/login"
+		initializers.DB.Create(&models.Links{UserId: StringToInt(uid), Url: url.Url})
+		return url.Url
 	}
-
-	initializers.DB.Where("id = ?", uid).First(&user)
-	if user.Id == 0 {
-		err = errors.New("user not found")
-		return user, err
-	}
-
-	return user, nil
+	
+	return url.Url
 }
 
 func EmailToUser(email string) (models.Users, error) {
@@ -186,16 +164,17 @@ func GetCountDeletedUsers() int {
 	return int(count)
 }
 
-func StringToInt(str string) (int, error) {
+func StringToInt(str string) int {
+
+	if str == "" {
+		return 0
+	}
+
 	i, err := strconv.Atoi(str)
 	if err != nil {
-		return 0, err
+		return 0
 	}
-	return i, nil
-}
-
-func IntToString(i int) string {
-	return strconv.Itoa(i)
+	return i
 }
 
 func ActToString(t int) string {
@@ -237,8 +216,8 @@ func ActToString(t int) string {
 
 func CalculateAccessTime(t string) int {
 
-	min, err := StringToInt(t)
-	if err != nil {
+	min := StringToInt(t)
+	if min == 0 {
 		min = 1
 	}
 

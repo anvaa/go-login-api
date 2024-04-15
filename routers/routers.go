@@ -56,6 +56,7 @@ func SetupRouter() *gin.Engine {
 		userRoutes.POST("/role", controllers.UpdateRole)
 		userRoutes.POST("/psw", controllers.SetNewPassword)
 		userRoutes.POST("/act", controllers.SetAct)
+		userRoutes.POST("/url", controllers.UpdateUrl)
 	}
 
 	viewRoutes := r.Group("/v")
@@ -64,12 +65,13 @@ func SetupRouter() *gin.Engine {
 		viewRoutes.Use(middleware.IsAuth)
 
 		// not admin
-		viewRoutes.GET("/userhome", controllers.ViewUserHome)
+		viewRoutes.GET("/appstart", controllers.AppStart)
 
 		// is admin
 		viewRoutes.GET("/newusers", middleware.IsAdmin, controllers.ViewNewUsers)
 		viewRoutes.GET("/users", middleware.IsAdmin, controllers.ViewManageUsers)
 		viewRoutes.GET("/user/:id", middleware.IsAdmin, controllers.ViewEditUser)
+		viewRoutes.GET("/userhome", middleware.IsAdmin, controllers.ViewNewUsers)
 	}
 
 	return r

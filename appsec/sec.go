@@ -29,7 +29,6 @@ func GetSecret() string {
 		log.Fatal("Error generating JWT secret")
 	}
 
-	log.Println("GIN_MODE: " + os.Getenv("GIN_MODE"))
 	return secret
 }
 

@@ -3,12 +3,17 @@
     <div class="menubox">
         <table >
             <tr>
+                {{ if eq .user.Role "admin" }}
                 <th class="menu-tr">
                     <input type="button" value="New users" class="menubutton" onclick="newUserClick()" />
                 </th>
-                {{ if eq .user.Role "admin" }}
                 <th class="menu-tr">
                     <input type="button" value="Manage users" class="menubutton" onclick="mngusersClick()" />
+                </th>
+                <th style="width: 50%; text-align: right;">
+                    <label class="admin-text" title="Gin mode">
+                        Mode: {{ .ginmode }}
+                    </label>
                 </th>
                 {{ end }}
                 <th style="width: 100%; text-align: right;" class="menu-tr">

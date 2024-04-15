@@ -1,9 +1,22 @@
 {{ template "navbar.html" . }}
 <div>
-    <table style="width: 100%;">
-        <tr>
-            <td class="header-text">Welcome {{ .user.Email }}</td>
-            <td class="act-text" style="text-align: right">Access time: {{ .act }}</td>
+    <h4><b><u>User test page</u></b></h4>
+    <table style="width: fit-content;">
+        <tr style="border: 1px solid black;">
+            <td class="header-text" style="text-align: right; width: fit-content;">User:</td>
+            <td class="header-text">{{ .user.Email }}</td>
+        </tr>
+        <tr style="border: 1px solid black;">
+            <td class="header-text" style="text-align: right; width: fit-content;">Role:</td>
+            <td class="header-text">{{ .user.Role }}</td>
+        </tr>
+        <tr style="border: 1px solid black;">
+            <td class="header-text" style="text-align: right; width: fit-content;">Access time:</td>
+            <td class="header-text">{{ .act }}</td>
+        </tr>
+        <tr style="border: 1px solid black;">
+            <td class="header-text" style="text-align: right; width: fit-content;">Url:</td>
+            <td class="header-text">{{ .url }}</td>
         </tr>
     </table>
 </div>
@@ -12,4 +25,3 @@
 <script src="/js/{{ .js }}"></script>
 </body>
 </html>
-`

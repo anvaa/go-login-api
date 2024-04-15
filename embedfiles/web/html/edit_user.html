@@ -21,15 +21,35 @@
     {{ if eq .edituid.Id 1 }}
     {{ else }}
     <div class="configbox">
+        <form id="updateurl" class="form-edituser">
+            <label for="_role">User 'redirect to' url</label>
+            <table>
+                <tr>
+                    <td style="text-align: right;">
+                        <label for="_url">URL</label>
+                        <input type="text" id="_url" value="{{ .url }}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        <label for="_btn" style="color: lightgrey;">URL</label>
+                        <input type="button" value="Update URL" class="subbutton" onclick="setUrl()" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <br>
+    <div class="configbox">
         <form id="updateuser" class="form-edituser">
             <label for="_role">Role</label>
             <select id="_role" >
                 {{ if eq .edituid.Role "admin" }}
                     <option value="admin" selected>admin</option>
                     <option value="user">user</option>
-                    <option value="user">superuser</option>
+                    <option value="superuser">superuser</option>
                 {{ else }}
-                    <option value="admin">admin</option>
+                <option value="superuser">superuser</option>
                     <option value="user" selected>user</option>
                 {{ end }}
             </select>

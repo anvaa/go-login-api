@@ -22,8 +22,8 @@
 tmp/*
 
 # IDE generated files #
-.env
-data/users.db
+.app
+data/app.db
 runme.sh
 .static
 *.crt

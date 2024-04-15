@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"appconf"
 	"filefunc"
 	"fmt"
 	"global"
@@ -180,15 +181,20 @@ func Login(c *gin.Context) {
 	usrFolder := fmt.Sprintf(os.Getenv("WORKING_FOLDER")+"/share/%d/files", user.Id)
 	filefunc.CreateFolder(usrFolder)
 
-	url := "/v/userhome"
-	if user.Role == "admin" {
-		url = "/v/newusers"
+	// redirect to userurl or newusers
+	url := "/v/userhome" // test page for admin in debug mode
+	if appconf.GetVal("gin_mode") == "release" {
+		url = global.GetUserUrl(global.IntToString(user.Id))
 	}
-	
+
+	if user.Role == "admin" {
+		url = "/v/newusers" // admin start page
+	}
+
 	// return
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
-		"url": url,})
+		"url":     url})
 
 }
 
@@ -447,6 +453,37 @@ func SetAct(c *gin.Context) {
 	if err := initializers.DB.Save(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to update role"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success"})
+
+}
+
+func UpdateUrl(c *gin.Context) {
+	var body struct {
+		Id  string `json:"id"`
+		Url string `json:"url"`
+	}
+
+	if c.BindJSON(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "failed to read body"})
+		return
+	}
+	
+	var url models.Links
+	if err := initializers.DB.Where("user_id = ?", body.Id).First(&url).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to get url"})
+		return
+	}
+
+	url.Url = body.Url
+	if err := initializers.DB.Save(&url).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to update url"})
 		return
 	}
 
