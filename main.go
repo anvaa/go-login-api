@@ -1,20 +1,29 @@
 package main
 
 import (
-	
+	"appconf"
 	"filefunc"
 	"embedfiles"
 	"initializers"
+	"appsec"
+	
 	"log"
 	"os"
 	"routers"
 )
 
 var WD string
+var https bool
 
 func init() {
 	WD = getWD()
-	dbpath := WD + "/data/users.db"
+
+	configFile := WD + "/.app" // check for .app file
+	if !filefunc.IsExists(configFile) {
+		log.Println("No .app file found. Creating one...")
+		appconf.WriteDefaultConfig(WD)
+	}
+	appconf.ReadConfig() // read the .app file
 
 	// Create the http.FileSystem using the embedded files
 	embedfiles.GetWebFS()
@@ -24,30 +33,29 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
-	envFile := WD + "/.env"
-	if !filefunc.IsExists(envFile) {
-		log.Println("No .env file found. Creating one...")
-		initializers.WriteEnv(WD)
-	}
 
-	dataFolder := WD + "/data"
+	dataFolder := appconf.GetVal("root_folder") + "/data"
 	if !filefunc.IsExists(dataFolder) {
 		log.Println("No data folder found. Creating one...")
 		filefunc.CreateFolder(dataFolder)
 	}
 
-	// shareFolder := WD + "/embededfiles/share"
-	// if !filefunc.IsExists(shareFolder) {
-	// 	log.Println("No share folder found. Creating one...")
-	// 	filefunc.CreateFolder(shareFolder)
-	// }
-
-	
-	
-	initializers.LoadEnv(WD)
+	dbpath := appconf.GetVal("db_path")
 	initializers.ConnectToDB(dbpath)
 	initializers.SyncDB()
+
+	certFile := appconf.GetVal("root_folder") + "/app.crt"
+	keyFile := appconf.GetVal("root_folder") + "/app.key"
+	if !filefunc.IsExists(certFile) || !filefunc.IsExists(keyFile) {
+		log.Println("No RSA files found. Creating key pair ...")
+
+		err := appsec.GenerateTLS(keyFile, certFile, "2048")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	https = appconf.GetVal("https") == "true"
 }
 
 func getWD() string {
@@ -55,21 +63,29 @@ func getWD() string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Root: " + wd)
+	// fmt.Printf("WorkDir: %s", wd)
 	return wd
 }
 
 func main() {
-	// generate new 64-bit secret key for JWT on startup
-	err := os.Setenv("JWT_SECRET", initializers.GetSecret())
+	
+	// set new JWT_SECRET environment variable if in release mode
+	err := os.Setenv("JWT_SECRET", appsec.GetSecret())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// log.Println(os.Environ())
-
 	r := routers.SetupRouter()
 
-	r.Run()
+	if https {
+		certFile := appconf.GetVal("root_folder") + "/app.crt"
+		keyFile := appconf.GetVal("root_folder") + "/app.key"
+
+		log.Println("Starting HTTPS server on port " + appconf.GetVal("port"))
+		r.RunTLS(":"+appconf.GetVal("port"), certFile, keyFile)
+	} else {
+		log.Println("Starting HTTP server on port " + appconf.GetVal("port"))
+		r.Run(":" + appconf.GetVal("port"))
+	}
 }
 

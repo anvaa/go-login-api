@@ -1,10 +1,9 @@
 package routers
 
 import (
+	"appconf"
 	"controllers"
 	"middleware"
-	
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +11,7 @@ import (
 // SetupRouter sets up the routes for the application
 func SetupRouter() *gin.Engine {
 
-	if os.Getenv("GIN_MODE") == "debug" {
+	if appconf.GetVal("gin_mode") == "debug" {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		gin.SetMode(gin.ReleaseMode)
@@ -21,7 +20,7 @@ func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.SetTrustedProxies(nil)
 
-	if os.Getenv("GIN_MODE") == "debug" {
+	if appconf.GetVal("gin_mode") == "debug" {
 		r.Static("/css", "embedfiles/web/css")
 		r.Static("/js", "embedfiles/web/js")
 		r.Static("/share", "embedfiles/share")
