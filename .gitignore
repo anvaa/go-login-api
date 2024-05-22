@@ -28,3 +28,4 @@ runme.sh
 .static
 *.crt
 *.key
+.app

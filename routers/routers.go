@@ -32,7 +32,8 @@ func SetupRouter() *gin.Engine {
 		r.LoadHTMLGlob(".static/html/*.html")	
 	}
 
-	r.GET("/", controllers.Index)
+	r.GET("/", controllers.Root)
+	r.GET("/version", controllers.Version)
 
 	r.POST("/signup", controllers.ViewSignup)
 	r.GET("/signup", controllers.ViewSignup)

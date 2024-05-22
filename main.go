@@ -2,11 +2,12 @@ package main
 
 import (
 	"appconf"
-	"filefunc"
-	"embedfiles"
-	"initializers"
 	"appsec"
+	"embedfiles"
+	"filefunc"
 	
+	"initializers"
+
 	"log"
 	"os"
 	"routers"

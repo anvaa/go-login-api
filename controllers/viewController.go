@@ -11,14 +11,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Index(c *gin.Context) {
+func Root (c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "/login")
+}
 
-	info2 := time.Now().Format("2006-01-02 15:04:05")
+func Version(c *gin.Context) {
+
+	info := time.Now().Format("2006-01-02 15:04:05")
 
 	c.HTML(http.StatusOK, "index.html", gin.H{
 		"title": "Login Api by LAHB",
 		"info1": "Login Api by LAHB",
-		"info2": "🇳🇴 " + info2,
+		"info2": "🇳🇴 " + info,
 		"css":   "index.css",
 	})
 }
